@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.uzuu.sobe"
-
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.uzuu.sobe"
         minSdk = 24
@@ -31,8 +31,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.foundation.layout)
+    implementation(libs.androidx.ui.graphics)
     implementation(libs.material)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)

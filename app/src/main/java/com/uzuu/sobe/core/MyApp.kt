@@ -1,4 +1,4 @@
-package com.uzuu.petrolimex.core
+package com.uzuu.sobe.core
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
