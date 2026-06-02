@@ -26,7 +26,7 @@ object ColorProjectOther{
 }
 
 
-object AppColor{
+
     //color branch/ olive
     val Olive1000 = Color(0xFFECEFE7)
     val Olive900 = Color(0xFFDDE2D4)
@@ -67,6 +67,37 @@ object AppColor{
     val dangerRed400 = Color(0xFFBD0F0F)
     val darkRed = Color(0xFFCA6549) // secondary
     val beige = Color(0xFFFEF8F1)
+
+object AppColor{
+    // Primary - Sage
+    val Primary = sage500
+    val OnPrimary = Color.White
+    val Secondary = darkRed
+
+    val PrimaryVariant = Color(0xFF5F765B)
+    val PrimaryLight = Color(0xFFB9C7B7)
+    val PrimaryDark = Color(0xFF4D5F49)
+
+    // Background & Surface
+    val Background = Color(0xFFF2F2F2)
+    val Surface = Color.White
+    val OnBackground = Color(0xFF1F1F1F)
+    val OnSurface = Color(0xFF1F1F1F)
+
+    // Error & Warning
+    val Error = Color(0xFFBD0F0F)
+    val OnError = Color.White
+    val Warning = Color(0xFFCA6549)
+    val OnWarning = Color.White
+
+    // Borders
+    val Border = Color(0xFFBFBFBF)
+    val Divider = Color(0xFFDBDBDB)
+
+    // Text
+    val TextPrimary = Color(0xFF1F1F1F)
+    val TextSecondary = Color(0xFF595959)
+    val TextDisabled = Color(0xFFA6A6A6)
 }
 
 object AppBrush {
