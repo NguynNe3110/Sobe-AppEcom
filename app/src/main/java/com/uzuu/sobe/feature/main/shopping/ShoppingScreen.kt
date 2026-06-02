@@ -24,7 +24,7 @@ fun ShoppingScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "This is Home Tab",
+            text = "This is Shopping Tab",
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.primary
         )

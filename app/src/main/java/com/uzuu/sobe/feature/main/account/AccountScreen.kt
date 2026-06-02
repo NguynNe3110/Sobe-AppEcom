@@ -27,7 +27,7 @@ fun AccountScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "This is Home Tab",
+            text = "This is Account Tab",
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.primary
         )

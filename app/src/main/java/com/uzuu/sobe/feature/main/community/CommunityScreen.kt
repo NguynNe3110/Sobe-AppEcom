@@ -24,7 +24,7 @@ fun CommunityScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "This is Home Tab",
+            text = "This is Community Tab",
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.primary
         )

@@ -24,7 +24,7 @@ fun MessageScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "This is Home Tab",
+            text = "This is Message Tab",
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.primary
         )
