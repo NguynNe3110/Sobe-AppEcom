@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.uzuu.jetpack_compose_hub.feature.learn6_navigation.feature.auth.login.LoginScreen
-import com.uzuu.jetpack_compose_hub.feature.learn6_navigation.feature.auth.register.RegisterScreen
+import com.uzuu.sobe.feature.auth.register.RegisterScreen
 import com.uzuu.sobe.feature.main.MainScreen
 
 // Auth Graph
@@ -27,18 +27,18 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
     }
 
     composable(Screen.Register.route) {
-        RegisterScreen(
-            onNavigateBack = {
-                navController.popBackStack()
-            },
-            onRegisterSuccess = {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.Register.route) {
-                        inclusive = true
-                    }
-                }
-            }
-        )
+//        RegisterScreen(
+//            onNavigateBack = {
+//                navController.popBackStack()
+//            },
+//            onRegisterSuccess = {
+//                navController.navigate(Screen.Login.route) {
+//                    popUpTo(Screen.Register.route) {
+//                        inclusive = true
+//                    }
+//                }
+//            }
+//        )
     }
 }
 
