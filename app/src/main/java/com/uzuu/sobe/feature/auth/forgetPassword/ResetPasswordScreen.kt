@@ -1,5 +1,8 @@
 package com.uzuu.sobe.feature.auth.forgetPassword
 
+import com.uzuu.sobe.feature.auth.register.RegisterUiState
+import com.uzuu.sobe.feature.auth.register.RegisterViewModel
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -12,8 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sobe.ui.theme.AppTextStyles
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
@@ -22,31 +35,35 @@ import com.uzuu.sobe.ui.component.button.GradientButton
 import com.uzuu.sobe.ui.theme.AppDimens
 
 
-@Composable
-fun LoginScreen(
-
-    onNavigateToOTPScreen: () -> Unit
-) {
-    RegisterScreenContent(
-//        uiState = uiState,
-//        onPhoneChanged = viewModel::onPhoneChanged,
-//        onPasswordChanged = viewModel::onPasswordChanged,
+//@Composable
+//fun ResetPasswordScreen(
+////    viewModel: RegisterViewModel = hiltViewModel(), // Khởi tạo mặc định
+//    onClickConfirmToEnd: () -> Unit,
+//) {
+//    // 1. Thu thập state từ ViewModel
+////    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 //
-//        onGoogleLogin = viewModel::onGoogleLogin,
-//        onFacebookLogin = viewModel::onFacebookLogin,
+//    ResetPasswordScreenContent(
 //
-//        onNavigateToRegister = viewModel::onNavigateToRegister,
-//        onNavigateToHome = viewModel::onNavigateToHome,
-        onNavigateToOTPScreen = onNavigateToOTPScreen
-    )
-}
+//        onClickConfirmToEnd = onClickConfirmToEnd
+//    )
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreenContent(
-    onNavigateToOTPScreen: () -> Unit
+fun ResetPasswordScreenContent(
+//    uiState: RegisterUiState, // Nhận state từ bên ngoài
+//    onPhoneChanged: (String) -> Unit,
+//    onPasswordChanged: (String) -> Unit,
+//    onAgreementChanged: (Boolean) -> Unit,
+//    onRegisterClick: () -> Unit,
+//    onRegisterGoogle: () -> Unit,
+//    onRegisterFacebook: () -> Unit,
+    onClickConfirmToEnd: () -> Unit
 ) {
-    var numberPhone by remember { mutableStateOf("") }
+    var isPasswordVisible by remember { mutableStateOf(false) }
+    var newpass by remember { mutableStateOf("") }
+    var confirmNewpass by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -78,22 +95,29 @@ fun RegisterScreenContent(
                 .padding(padding)
                 .padding(horizontal = 32.dp)
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(AppDimens.Spacing.spacingExtraLarge)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(AppDimens.Spacing.spacingExtraLarge))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "QUÊN MẬT KHẨU",
+                    text = "ĐẶT LẠI MẬT KHẨU",
                     color = AppColor.Primary,
-                    style = AppTextStyles.Heading1,
+                    style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                Text(
+                    text = "Vui lòng nhập  mật khẩu mới khác với" ,
+                    color = AppColor.neutral500,
+                    style = AppTextStyles.SupportText,
                 )
                 Text(
-                    text = "Vui lòng nhập số điện thoại bạn đã đăng ký tài khoản",
+                    text = "mật khẩu đã tạo trước đây.",
                     color = AppColor.neutral500,
                     style = AppTextStyles.SupportText,
                     modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
@@ -102,9 +126,9 @@ fun RegisterScreenContent(
 
             // Input Số điện thoại
             OutlinedTextField(
-                value = numberPhone, // Lấy giá trị từ state
-                onValueChange = { numberPhone = it },
-                label = { Text("Số điện thoại") },
+                value = newpass, // Lấy giá trị từ state
+                onValueChange = { }, // Gọi hàm từ VM
+                label = { Text("Mật khẩu mới") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 56.dp, max = 56.dp),
@@ -129,11 +153,38 @@ fun RegisterScreenContent(
                 )
             )
 
+            Spacer(Modifier.height(16.dp))
+
+            // Input Mật khẩu
+            OutlinedTextField(
+                value = confirmNewpass,
+                onValueChange = {  },
+                label = { Text("Mật khẩu" ) },
+                trailingIcon = {
+                    IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                        // Dùng icon vector thay vì emoji cho chuyên nghiệp hơn
+                        Icon(
+                            painter = painterResource(
+                                id = if (isPasswordVisible) R.drawable.ic_eye_off else R.drawable.ic_eye_on
+                            ),
+                            contentDescription = if (isPasswordVisible) "Ẩn mật khẩu" else "Hiện mật khẩu"
+                        )
+                    }
+                },
+                visualTransformation = if (isPasswordVisible)
+                    VisualTransformation.None else PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 56.dp, max = 56.dp), // ← Fix cứng cả min lẫn max
+                shape = MaterialTheme.shapes.extraLarge
+            )
+
+            Spacer(Modifier.height(24.dp))
 
             // Nút Đăng ký chính
             GradientButton(
-                text = "Đặt lại mật khẩu",
-                onClick = onNavigateToOTPScreen,
+                text = "Xác nhận",
+                onClick = onClickConfirmToEnd,
                 brush = AppBrush.SageGradient,
 //                enabled = !uiState.isLoading,
                 modifier = Modifier
@@ -141,22 +192,16 @@ fun RegisterScreenContent(
                     .fillMaxWidth(),
                 contentPadding = PaddingValues(horizontal = 24.dp),
                 textStyle = AppTextStyles.Heading3.copy(color = Color.White)
-            ) {
-//                if (uiState.isLoading) {
-//                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
-//                } else {
-//                    Text("Đăng ký", fontSize = 16.sp, fontWeight = FontWeight.Medium)
-//                }
-            }
+            )
         }
     }
 }
 
 @Preview
 @Composable
-fun PreviewRegisterScreen() {
+fun PreviewResetPasswordScreen() {
     // Giả lập trạng thái UI để xem trước giao diện
-    RegisterScreenContent(
-        onNavigateToOTPScreen = {},
+    ResetPasswordScreenContent(
+        onClickConfirmToEnd = {},
     )
 }

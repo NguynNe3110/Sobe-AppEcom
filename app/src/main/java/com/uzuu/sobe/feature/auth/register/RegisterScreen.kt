@@ -152,7 +152,7 @@ fun RegisterScreenContent(
             OutlinedTextField(
                 value = uiState.password,
                 onValueChange = onPasswordChanged,
-                label = { Text("Mật khẩu" ) },
+                label = { Text("Mật khẩu", style = AppTextStyles.SupportText ) },
                 trailingIcon = {
                     IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
                         // Dùng icon vector thay vì emoji cho chuyên nghiệp hơn
@@ -322,7 +322,9 @@ fun RegisterScreenContent(
             ) {
                 Text("Bạn đã có tài khoản? ", color = Color.Gray)
                 TextButton(onClick = onNavigateToLogin) {
-                    Text("Đăng nhập", color = Color(0xFF5C7A65))
+                    Text("Đăng nhập", color = Color(0xFF5C7A65),
+                        textDecoration = TextDecoration.Underline
+                        )
                 }
             }
             Spacer(Modifier.height(24.dp))

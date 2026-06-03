@@ -35,3 +35,7 @@ shape = RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge),
                     color = AppColor.Primary,
                     style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
                     )
+
+
+////
+            Spacer(Modifier.height(32.dp))

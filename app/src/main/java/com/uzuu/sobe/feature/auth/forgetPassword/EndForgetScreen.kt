@@ -75,7 +75,7 @@ fun EndRegisterScreenContent(
             ) {
 
                 Text(
-                    text = ("ĐĂNG KÝ THÀNH CÔNG"),
+                    text = ("THÀNH CÔNG"),
                     fontSize = 24.sp,
                     style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
                     textAlign = TextAlign.Center
@@ -85,8 +85,7 @@ fun EndRegisterScreenContent(
 
                 // Description
                 Text(
-                    text = ("Chào mừng bạn đến với hành trình\n" +
-                            "Sống xanh - Bền vững cùng SOBE"),
+                    text = ("Mật khẩu đã được cập nhật. SOBE đang chờ bạn cùng tiếp tục hành trình sống xanh"),
                     fontSize = 14.sp,
                     color = AppColor.neutral300,
                     textAlign = TextAlign.Center,

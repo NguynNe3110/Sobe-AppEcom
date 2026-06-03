@@ -14,7 +14,7 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
             onNavigateToRegister = {
                 navController.navigate(Screen.Register.route)
             },
-            onLoginSuccess = {
+            onNavigateToHome = {
                 navController.navigate(Screen.Main.route) {
                     popUpTo(
                         Screen.Login.route
@@ -22,6 +22,9 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
                         inclusive = true
                     }
                 }
+            },
+            onNavigateToForgetPassword = {
+
             }
         )
     }
