@@ -51,17 +51,7 @@ object ColorProjectOther{
     val sage900 = Color(0xFFD5DED4)
     val sage1000 = Color(0xFFF1F4F1)
 
-    // neutual gray
-    val neutral1000 = Color(0xFFF2F2F2)
-    val neutral900 = Color(0xFFDBDBDB)
-    val neutral800 = Color(0xFFBFBFBF)
-    val neutral700 = Color(0xFFA6A6A6)
-    val neutral600 = Color(0xFF8C8C8C)
-    val neutral500 = Color(0xFF737373)
-    val neutral400 = Color(0xFF595959)
-    val neutral300 = Color(0xFF404040)
-    val neutral200 = Color(0xFF2E2E2E)
-    val neutral100 = Color(0xFF1F1F1F)
+
 
     //other color
     val dangerRed400 = Color(0xFFBD0F0F)
@@ -98,6 +88,20 @@ object AppColor{
     val TextPrimary = Color(0xFF1F1F1F)
     val TextSecondary = Color(0xFF595959)
     val TextDisabled = Color(0xFFA6A6A6)
+
+    // neutual gray
+    val neutral1000 = Color(0xFFF2F2F2)
+    val neutral900 = Color(0xFFDBDBDB)
+    val neutral800 = Color(0xFFBFBFBF)
+    val neutral700 = Color(0xFFA6A6A6)
+    val neutral600 = Color(0xFF8C8C8C)
+    val neutral500 = Color(0xFF737373)
+    val neutral400 = Color(0xFF595959)
+    val neutral300 = Color(0xFF404040)
+    val neutral200 = Color(0xFF2E2E2E)
+    val neutral100 = Color(0xFF1F1F1F)
+
+    val black = Color(0xFF000000)
 }
 
 object AppBrush {

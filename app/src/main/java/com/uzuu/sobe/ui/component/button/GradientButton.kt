@@ -91,10 +91,10 @@ fun GradientButton(
             .padding(finalPadding),
         contentAlignment = Alignment.Center,
     ) {
+        Text(text = text, style = finalTextStyle)
+
         if (content != null) {
             content()
-        } else {
-            Text(text = text, style = textStyle)
         }
     }
 }

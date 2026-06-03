@@ -111,24 +111,17 @@ fun EndRegisterScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()       // Nút trải dài theo chiều ngang
                         .height(45.dp),       // Chiều cao tùy chỉnh cho cân đối
-                    shape = RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge), // Bo góc kiểu viên thuốc (Pill shape)
                     textStyle = AppTextStyles.Heading3.copy(
                         color = Color.White
                     ),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp)
+                    contentPadding = PaddingValues(horizontal = 24.dp)
                 ) {
                     // Nội dung bên trong Box: Text + Icon
                     Row(
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        Text(
-                            text = "Đăng nhập",
-                            style = AppTextStyles.Heading3.copy(color = Color.White)
-                        )
-
-                        Spacer(modifier = Modifier.width(8.dp)) // Khoảng cách giữa chữ và icon
-
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_enter), // Hoặc ic_arrow_enter của bạn
                             contentDescription = "enter home",

@@ -1,6 +1,7 @@
 package com.uzuu.sobe.ui.theme
 
 // ui/theme/AppDimens.kt
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 object AppDimens {
@@ -9,9 +10,20 @@ object AppDimens {
         val spacingExtraSmall = 4.dp
         val spacingSmall = 8.dp
         val spacingMedium = 16.dp
+        val spacingTwenty = 20.dp
+
         val spacingLarge = 24.dp
         val spacingExtraLarge = 32.dp
         val spacingPaddingHuge = 48.dp
+    }
+
+    object Padding{
+        val paddingExtraSmall = 4.dp
+        val paddingSmall = 8.dp
+        val paddingMedium = 16.dp
+        val paddingLarge = 24.dp
+        val paddingExtraLarge = 32.dp
+        val paddingHuge = 48.dp
     }
 
     object Corner{
@@ -26,17 +38,16 @@ object AppDimens {
 
     object IconSize{
         // Icon size
-        val IconExtraSmall = 16.dp
+        val IconExtraSmall = 8.dp
         val IconSmall = 16.dp
         val IconMedium = 24.dp
         val IconLarge = 32.dp
         val IconExtraLarge = 48.dp
     }
 
-
-
     // Height chuẩn
     val ButtonHeight = 48.dp
+    val NormalHeight = 40.dp
     val TextFieldHeight = 56.dp
 
 }

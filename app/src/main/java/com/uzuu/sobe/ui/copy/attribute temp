@@ -1,0 +1,37 @@
+// khaorng cách
+Spacer(modifier = Modifier.weight(1f))
+
+// bo góc
+shape = RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge),
+
+//
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 16.dp) // Padding trái thay vì all
+                            .size(24.dp),           // Size icon chuẩn Material
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = "Back",
+                        tint = Color.Unspecified // thuộc tính này cho phép loại bỏ lớp phủ mawjc điịnh của gg
+                    )
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_arrow_enter), // Hoặc ic_arrow_enter của bạn
+                            contentDescription = "enter home",
+                            tint = Color.White,
+                            modifier = Modifier.size(AppDimens.IconSize.IconSmall)
+                        )
+
+            Image(
+                painter = painterResource(id = R.drawable.img_end_register),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                contentScale = ContentScale.Fit
+            )
+
+                Text(
+                    text = "ĐĂNG KÝ TÀI KHOẢN",
+                    color = AppColor.Primary,
+                    style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
+                    )

@@ -1,10 +1,12 @@
 package com.uzuu.sobe.feature.auth.register
 
 import android.R.attr.password
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,7 +33,6 @@ import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
 import com.uzuu.sobe.ui.component.button.GradientButton
 import com.uzuu.sobe.ui.theme.AppDimens
-import java.time.format.TextStyle
 
 
 @Composable
@@ -106,8 +108,8 @@ fun RegisterScreenContent(
                 Text(
                     text = "ĐĂNG KÝ TÀI KHOẢN",
                     color = AppColor.Primary,
-                    style = AppTextStyles.Heading1
-                )
+                    style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
+                    )
                 Text(
                     text = "Bắt đầu hành trình thời trang bền vững",
                     color = AppColor.neutral500,
@@ -123,7 +125,25 @@ fun RegisterScreenContent(
                 label = { Text("Số điện thoại") },
                 modifier = Modifier.fillMaxWidth()
                     .heightIn(min = 56.dp, max = 56.dp),
-                shape = MaterialTheme.shapes.extraLarge
+                shape = MaterialTheme.shapes.extraLarge,
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+
+                    // Màu viền
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = AppColor.Primary,      // Viền khi focus
+                    unfocusedIndicatorColor = AppColor.neutral300,  // Viền bình thường
+                    disabledIndicatorColor = AppColor.neutral300,
+
+                    // Màu Label
+                    focusedLabelColor = AppColor.Primary,
+                    unfocusedLabelColor = AppColor.neutral500,
+
+                    // Màu con trỏ
+                    cursorColor = AppColor.Primary
+                )
             )
 
             Spacer(Modifier.height(16.dp))
@@ -217,22 +237,79 @@ fun RegisterScreenContent(
             // Nút Google & Facebook
             OutlinedButton(
                 onClick = onRegisterGoogle,
-                modifier = Modifier.fillMaxWidth().height(40.dp),
-                shape = MaterialTheme.shapes.extraLarge
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp), // Tăng chiều cao lên chút cho cân đối (ảnh trông khoảng 48-50dp)
+                border = BorderStroke(1.dp, AppColor.neutral300), // Dùng màu xám nhạt cho viền giống ảnh
+                shape = RoundedCornerShape(percent = 50), // Bo tròn kiểu viên thuốc (Pill shape)
+                contentPadding = PaddingValues(0.dp) // Xóa padding mặc định của OutlinedButton để dễ căn chỉnh
             ) {
-                Text("G", color = Color.Blue, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.width(8.dp))
-                Text("Đăng ký bằng Google")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center // QUAN TRỌNG: Căn cả hàng ra giữa
+                ) {
+                    // Icon Google - Bỏ tint để giữ nguyên màu sắc logo
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 16.dp) // Padding trái thay vì all
+                            .size(24.dp),           // Size icon chuẩn Material
+                        painter = painterResource(id = R.drawable.logo_google),
+                        contentDescription = "Back",
+                        tint = Color.Unspecified // thuộc tính này cho phép loại bỏ lớp phủ mawjc điịnh của gg
+                    )
+
+                    Text(
+                        text = "Đăng ký bằng Google",
+                        color = AppColor.neutral300, // Màu chữ đen/xám đậm
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium,
+                        textDecoration = TextDecoration.Underline
+                    )
+
+                    // Spacer vô hình bên phải để bù trừ cho padding start của icon,
+                    // giúp chữ "Đăng ký..." nằm CHÍNH GIỮA nút
+                    Spacer(modifier = Modifier.width(40.dp))
+                }
             }
-            Spacer(Modifier.height(12.dp))
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             OutlinedButton(
                 onClick = onRegisterFacebook,
-                modifier = Modifier.fillMaxWidth().height(40.dp),
-                shape = MaterialTheme.shapes.extraLarge
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp), // Tăng chiều cao lên chút cho cân đối (ảnh trông khoảng 48-50dp)
+                border = BorderStroke(1.dp, AppColor.neutral300), // Dùng màu xám nhạt cho viền giống ảnh
+                shape = RoundedCornerShape(percent = 50), // Bo tròn kiểu viên thuốc (Pill shape)
+                contentPadding = PaddingValues(0.dp) // Xóa padding mặc định của OutlinedButton để dễ căn chỉnh
             ) {
-                Text("f", color = Color(0xFF1877F2), fontWeight = FontWeight.Bold)
-                Spacer(Modifier.width(8.dp))
-                Text("Đăng ký bằng Facebook")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center // QUAN TRỌNG: Căn cả hàng ra giữa
+                ) {
+                    // Icon Google - Bỏ tint để giữ nguyên màu sắc logo
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 16.dp) // Padding trái thay vì all
+                            .size(24.dp),           // Size icon chuẩn Material
+                        painter = painterResource(id = R.drawable.logo_facebook),
+                        contentDescription = "Back",
+                        tint = Color.Unspecified // thuộc tính này cho phép loại bỏ lớp phủ mawjc điịnh của gg
+                    )
+
+                    Text(
+                        text = "Đăng ký bằng Facebook",
+                        color = AppColor.neutral300, // Màu chữ đen/xám đậm
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium
+                    )
+
+                    // Spacer vô hình bên phải để bù trừ cho padding start của icon,
+                    // giúp chữ "Đăng ký..." nằm CHÍNH GIỮA nút
+                    Spacer(modifier = Modifier.width(40.dp))
+                }
             }
 
             Spacer(Modifier.height(32.dp))
