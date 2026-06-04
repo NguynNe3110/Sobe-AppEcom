@@ -54,9 +54,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
+import com.uzuu.jetpack_compose_hub.feature.home.HomeScreen
 import com.uzuu.sobe.feature.main.account.AccountScreen
 import com.uzuu.sobe.feature.main.community.CommunityScreen
-import com.uzuu.sobe.feature.main.home.HomeScreen
 import com.uzuu.sobe.feature.main.message.MessageScreen
 import com.uzuu.sobe.feature.main.shopping.ShoppingScreen
 import com.uzuu.sobe.ui.navigation.Screen
@@ -114,8 +114,18 @@ fun MainScreen(onLogout: () -> Unit) {
                 navController = navController,
                 startDestination = Screen.Home.route
             ) {
-                composable(Screen.Home.route) { HomeScreen(onLogout = onLogout) }
-                composable(Screen.Shopping.route) { ShoppingScreen() }
+                composable(Screen.Home.route) {
+                    HomeScreen(
+                        onNavigateToSearch = {},
+                        onNavigateToCart = {},
+                        onNavigateToCategory = {},
+                        onNavigatteToCateGoryAll = {},
+                        onNavigateToProductDetail = {}
+                    )
+                }
+                composable(Screen.Shopping.route) {
+                    ShoppingScreen()
+                }
                 composable(Screen.Community.route) { CommunityScreen() }
                 composable(Screen.Message.route) { MessageScreen() }
                 composable(Screen.Account.route) { AccountScreen() }
