@@ -9,7 +9,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -17,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -25,10 +29,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.AppBrush
+import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
 import com.uzuu.sobe.domain.model.ProductItem
+import com.uzuu.sobe.domain.model.init.listBanners
 import com.uzuu.sobe.domain.model.init.listCategories
 import com.uzuu.sobe.domain.model.init.listProducts
+import com.uzuu.sobe.ui.theme.AppDimens
 
 // Data classes
 data class HomeUiState(
@@ -90,12 +98,9 @@ fun HomeScreenContent(
 
         // Search Bar
         SearchBar(
-            query = uiState.searchQuery,
-            onQueryChange = onSearchQueryChanged,
-            onSearchClick = onSearchClick
+            keyword = uiState.searchQuery,
+            onKeywordChange = onSearchQueryChanged,
         )
-
-        Spacer(Modifier.height(16.dp))
 
         // Banner
         PromotionalBanner()
@@ -129,100 +134,132 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onSearchClick: () -> Unit
+fun SearchBar(
+    keyword: String,
+    onKeywordChange: (String) -> Unit,
+//    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .height(48.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .background(Color.White)
-            .clickable { onSearchClick() }
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_search),
-            contentDescription = "Search",
-            tint = Color.Gray,
-            modifier = Modifier.size(17.dp)
+
+        OutlinedTextField(
+            value = keyword,
+            onValueChange = onKeywordChange,
+
+            modifier = Modifier
+                .weight(1f)
+                .height(52.dp),
+
+            singleLine = true,
+
+            placeholder = {
+                Text("Bạn muốn tìm kiếm gì")
+            },
+
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_search),
+                    contentDescription = null
+                )
+            },
+
+            trailingIcon = {
+                IconButton(
+                    onClick = { onKeywordChange("") }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_cancel),
+                        contentDescription = null
+                    )
+                }
+            },
+
+            shape = RoundedCornerShape(24.dp),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
+
+                // Màu viền
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = AppColor.Primary,      // Viền khi focus
+                unfocusedIndicatorColor = AppColor.neutral300,  // Viền bình thường
+                disabledIndicatorColor = AppColor.neutral300,
+
+                // Màu Label
+                focusedLabelColor = AppColor.Primary,
+                unfocusedLabelColor = AppColor.neutral500,
+
+                // Màu con trỏ
+                cursorColor = AppColor.Primary
+            )
         )
+
         Spacer(Modifier.width(12.dp))
-        Text(
-            text = if (query.isEmpty()) "Bạn muốn tìm kiếm gì" else query,
-            color = if (query.isEmpty()) Color.Gray else Color.Black,
-            fontSize = 14.sp
-        )
-        Spacer(Modifier.weight(1f))
+
         Icon(
-            painter = painterResource(id = R.drawable.ic_cart),
+            painter = painterResource(R.drawable.ic_cart),
             contentDescription = "Cart",
-            tint = Color.Gray,
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(24.dp),
+            tint = Color.Unspecified
         )
     }
 }
 
 @Composable
-private fun PromotionalBanner() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .height(160.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFFE8F5E9))
+fun PromotionalBanner() {
+
+    val banners = listBanners
+
+    val pagerState = rememberPagerState(
+        pageCount = { banners.size }
+    )
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(160.dp)
+        ) { page ->
+
+            Image(
+                painter = painterResource(banners[page]),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(AppDimens.Corner.cornerRadiusTwenty)),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.Center
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Giới thiệu bạn mới",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF2E7D32)
-                )
-                Spacer(Modifier.height(8.dp))
+            repeat(banners.size) { index ->
+
+                val color =
+                    if (pagerState.currentPage == index)
+                        Color(0xFF4CAF50)
+                    else
+                        Color.LightGray
+
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color(0xFFFF5722))
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
-                ) {
-                    Text(
-                        text = "NHẬN NGAY VOUCHER",
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Spacer(Modifier.height(12.dp))
-                Text(
-                    text = "20%",
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E7D32)
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_banner),
-                    contentDescription = "Banner",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                        .padding(horizontal = 4.dp)
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(color)
                 )
             }
         }
@@ -252,8 +289,8 @@ private fun CategoriesSection(
             Text(
                 text = "Xem tất cả",
                 fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier.clickable { onCategoryAllClick }
+                color = AppColor.Primary, // Quan trọng: set Unspecified khi dùng brush
+                modifier = Modifier.clickable { onCategoryAllClick() }
             )
         }
         Spacer(Modifier.height(12.dp))
@@ -353,7 +390,7 @@ private fun ProductsGrid(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp).height(1000.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {

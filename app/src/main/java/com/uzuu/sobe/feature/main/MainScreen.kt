@@ -55,7 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
 import com.uzuu.jetpack_compose_hub.feature.home.HomeScreen
-import com.uzuu.sobe.feature.main.account.AccountScreen
+import com.uzuu.sobe.feature.main.account.ProfileScreen
 import com.uzuu.sobe.feature.main.community.CommunityScreen
 import com.uzuu.sobe.feature.main.message.MessageScreen
 import com.uzuu.sobe.feature.main.shopping.ShoppingScreen
@@ -81,7 +81,7 @@ val bottomNavItems = listOf(
 
 // 3. MAIN SCREEN: Ghép nối Scaffold, NavHost và Custom Bottom Bar
 @Composable
-fun MainScreen(onLogout: () -> Unit) {
+fun MainScreen() {
     // NavController riêng cho các tab bên trong MainScreen
     val navController = rememberNavController()
 
@@ -124,11 +124,23 @@ fun MainScreen(onLogout: () -> Unit) {
                     )
                 }
                 composable(Screen.Shopping.route) {
-                    ShoppingScreen()
+                    ShoppingScreen(
+                        onProductClick = {}
+                    )
                 }
                 composable(Screen.Community.route) { CommunityScreen() }
                 composable(Screen.Message.route) { MessageScreen() }
-                composable(Screen.Account.route) { AccountScreen() }
+                composable(Screen.Account.route) {
+                    ProfileScreen(
+                        onNavigateToOrders = {},
+                        onNavigateToWardrobe = {},
+                        onNavigateToFavorites = {},
+                        onNavigateToRewards = {},
+                        onNavigateToWallet = {},
+                        onNavigateToSettings = {},
+                        onProductClick = {}
+                    )
+                }
             }
         }
     }
@@ -144,8 +156,8 @@ fun CustomBottomBarAnimated(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(72.dp) // Tăng nhẹ chiều cao để đẹp hơn
-            .background(MaterialTheme.colorScheme.surface)
+            .height(62.dp) // Tăng nhẹ chiều cao để đẹp hơn
+            .background(Color.White)
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         Row(
@@ -178,13 +190,13 @@ fun BottomBarItemAnimated(
         label = "bg_color"
     )
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
         label = "content_color"
     )
 
-    // Animation cho kích thước
+    // Animation cho kích thước icon
     val iconSize by animateDpAsState(
-        targetValue = if (isSelected) 28.dp else 24.dp,
+        targetValue = if(isSelected) 22.dp else 20.dp,
         label = "icon_size"
     )
 
@@ -197,17 +209,28 @@ fun BottomBarItemAnimated(
     Row(
         modifier = Modifier
             .width(itemWidth)
-            .height(40.dp)
+            .height(32.dp)
             .clickable { onClick() }
             .clip(RoundedCornerShape(20.dp))
-            .background(AppBrush.SageGradient), // THAY ĐỔI: Truyền Brush thay vì Color
+            .then(
+                if (isSelected) {
+                    Modifier.background(AppBrush.SageGradient)
+                } else {
+                    Modifier
+                }
+            ), // THAY ĐỔI: Truyền Brush thay vì Color
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Icon(
-            painter = painterResource(id = if (isSelected) item.selectedIcon else item.unselectedIcon),
+            painter = painterResource(
+                id = if (isSelected)
+                    item.selectedIcon
+                else
+                    item.unselectedIcon
+            ),
             contentDescription = item.title,
-            tint = contentColor,
+            tint = Color.Unspecified,
             modifier = Modifier.size(iconSize)
         )
 
@@ -229,7 +252,5 @@ fun BottomBarItemAnimated(
 @Preview
 @Composable
 fun PreviewMainScreen() {
-    MainScreen(
-        onLogout = {}
-    )
+    MainScreen()
 }

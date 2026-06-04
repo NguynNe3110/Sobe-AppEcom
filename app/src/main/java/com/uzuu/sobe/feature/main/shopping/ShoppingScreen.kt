@@ -28,13 +28,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sobe.ui.theme.AppTextStyles
+import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
 import com.uzuu.sobe.domain.model.ProductItem
 import com.uzuu.sobe.domain.model.init.listProducts
+import com.uzuu.sobe.ui.component.ProductCard
+import com.uzuu.sobe.ui.theme.AppDimens
 
 // Data class
 
@@ -58,7 +62,6 @@ fun ShoppingScreen(
             edgePadding = 0.dp,
             containerColor = Color.White,
             contentColor = Color.Black,
-            divider = { }
         ) {
             tabs.forEachIndexed { index, title ->
                 Tab(
@@ -68,11 +71,11 @@ fun ShoppingScreen(
                         Text(
                             text = title,
                             style = AppTextStyles.Heading4,
-                            fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
-                            color = if (selectedTab == index) Color(0xFF4CAF50) else Color.Gray
+                            color = if (selectedTab == index) AppColor.Primary else AppColor.textSage100,
+                            textDecoration = if (selectedTab == index) TextDecoration.Underline else TextDecoration.None
+
                         )
                     },
-                    modifier = Modifier.padding(horizontal = 8.dp)
                 )
             }
         }
@@ -91,95 +94,6 @@ fun ShoppingScreen(
                 ProductCard(
                     product = product,
                     onClick = { onProductClick(product.name) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ProductCard(
-    product: ProductItem,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .clickable { onClick() }
-    ) {
-        // Product Image
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp)
-                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                .background(Color(0xFFF5F5F5))
-        ) {
-            Image(
-                painter = painterResource(id = product.image),
-                contentDescription = product.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-
-            // Heart/Wishlist button
-            Icon(
-                painter = painterResource(id = R.drawable.ic_heart_outline),
-                contentDescription = "Wishlist",
-                tint = Color.Unspecified,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(24.dp)
-                    .align(Alignment.TopEnd)
-                    .background(Color.White.copy(alpha = 0.7f), CircleShape)
-                    .padding(4.dp)
-            )
-        }
-
-        // Product Info
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(
-                text = product.name,
-                fontSize = 12.sp,
-                color = Color.Black,
-                maxLines = 2,
-                modifier = Modifier.height(32.dp)
-            )
-
-            Spacer(Modifier.height(4.dp))
-
-            Text(
-                text = product.price,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFE91E63)
-            )
-
-            Spacer(Modifier.height(6.dp))
-
-            // Seller Info
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = product.sellerAvatar),
-                    contentDescription = product.sellerName,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(Modifier.width(4.dp))
-
-                Text(
-                    text = product.sellerName,
-                    fontSize = 10.sp,
-                    color = Color.Gray,
-                    maxLines = 1
                 )
             }
         }
