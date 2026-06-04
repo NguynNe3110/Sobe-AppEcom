@@ -1,6 +1,7 @@
 package com.uzuu.sobe.feature.auth.register
 
 import android.R.attr.password
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,10 +40,19 @@ import com.uzuu.sobe.ui.theme.AppDimens
 fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(), // Khởi tạo mặc định
     onNavigateToLogin: () -> Unit,
-    onRegisterSuccess: () -> Unit
+    onNavigateToConfirm: () -> Unit
 ) {
     // 1. Thu thập state từ ViewModel
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // 2. Lắng nghe sự kiện từ ViewModel bằng LaunchedEffect
+    LaunchedEffect(Unit) {
+        viewModel.navigateToConfirmEvent.collect {
+            onNavigateToConfirm() // Gọi hàm navigate của NavGraph
+            Log.d("DEBUG", "[screen] in collect flow")
+
+        }
+    }
 
     RegisterScreenContent(
         uiState = uiState,

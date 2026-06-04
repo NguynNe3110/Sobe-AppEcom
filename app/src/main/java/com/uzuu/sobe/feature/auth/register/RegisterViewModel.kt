@@ -1,12 +1,17 @@
 package com.uzuu.sobe.feature.auth.register
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,6 +20,10 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
     // 2. Sử dụng StateFlow thay vì LiveData (Best practice hiện tại)
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
+
+
+    private val _navigateToConfirmEvent = Channel<Unit>()
+    val navigateToConfirmEvent = _navigateToConfirmEvent.receiveAsFlow()
 
     // 3. Các hàm cập nhật state
     fun onPhoneChanged(phone: String) {
@@ -38,6 +47,12 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
 
         _uiState.value = currentState.copy(isLoading = true)
         // TODO: Gọi UseCase đăng ký ở đây
+        viewModelScope.launch {
+            // val result = _registerUseCase(...)
+            _navigateToConfirmEvent.send(Unit) // Bắn tín hiệu: "Thành công rồi, navigate thôi!"
+            Log.d("DEBUG", "[viewmodel] in ỏnegisterclcik")
+
+        }
     }
 
     // ... các hàm khác

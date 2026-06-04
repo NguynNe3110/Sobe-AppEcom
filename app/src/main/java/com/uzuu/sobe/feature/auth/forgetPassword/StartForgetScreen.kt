@@ -23,8 +23,7 @@ import com.uzuu.sobe.ui.theme.AppDimens
 
 
 @Composable
-fun LoginScreen(
-
+fun StartForgetScreen(
     onNavigateToOTPScreen: () -> Unit
 ) {
     RegisterScreenContent(

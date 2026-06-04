@@ -35,19 +35,19 @@ import com.uzuu.sobe.ui.component.button.GradientButton
 import com.uzuu.sobe.ui.theme.AppDimens
 
 
-//@Composable
-//fun ResetPasswordScreen(
-////    viewModel: RegisterViewModel = hiltViewModel(), // Khởi tạo mặc định
-//    onClickConfirmToEnd: () -> Unit,
-//) {
-//    // 1. Thu thập state từ ViewModel
-////    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-//
-//    ResetPasswordScreenContent(
-//
-//        onClickConfirmToEnd = onClickConfirmToEnd
-//    )
-//}
+@Composable
+fun ResetPasswordScreen(
+//    viewModel: RegisterViewModel = hiltViewModel(), // Khởi tạo mặc định
+    onClickConfirmToEnd: () -> Unit,
+) {
+    // 1. Thu thập state từ ViewModel
+//    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ResetPasswordScreenContent(
+
+        onClickConfirmToEnd = onClickConfirmToEnd
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
