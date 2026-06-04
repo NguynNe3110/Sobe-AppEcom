@@ -1,7 +1,7 @@
 package com.uzuu.sobe.domain.model.init
 
-import com.uzuu.jetpack_compose_hub.feature.home.CategoryItem
 import com.uzuu.sobe.R
+import com.uzuu.sobe.domain.model.CategoryItem
 import com.uzuu.sobe.domain.model.ProductItem
 
 val listCategories: List<CategoryItem> = listOf(

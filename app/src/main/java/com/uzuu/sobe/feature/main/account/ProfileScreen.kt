@@ -50,6 +50,7 @@ import com.uzuu.sobe.domain.model.ProductItem
 import com.uzuu.sobe.domain.model.init.listBanners
 import com.uzuu.sobe.domain.model.init.listCategories
 import com.uzuu.sobe.domain.model.init.listProducts
+import com.uzuu.sobe.ui.component.ItemList
 import com.uzuu.sobe.ui.component.ProductCard
 import com.uzuu.sobe.ui.theme.AppDimens
 
@@ -264,15 +265,32 @@ fun ProfileScreen(
                     }
                 }
             }
-//
-//            // Invite Friends Section
-//            Card(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp),
-//                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-//                colors = CardDefaults.cardColors(containerColor = Color.White)
-//            ) {
+
+            // Invite Friends Section
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(
+
+                ) {
+                    ItemList(
+                        text = "Mời bạn bè tham gia",
+                        onClick = {}
+                    )
+                    ItemList(
+                        text = "Mời bạn bè tham gia",
+                        onClick = {}
+                    )
+                    ItemList(
+                        text = "Mời bạn bè tham gia",
+                        onClick = {}
+                    )
+                }
+            }
 //                Row(
 //                    modifier = Modifier
 //                        .fillMaxWidth()

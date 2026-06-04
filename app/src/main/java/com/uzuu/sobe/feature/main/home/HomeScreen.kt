@@ -1,9 +1,11 @@
 package com.uzuu.jetpack_compose_hub.feature.home
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,16 +28,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sobe.ui.theme.AppTextStyles
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
+import com.uzuu.sobe.domain.model.CategoryItem
 import com.uzuu.sobe.domain.model.ProductItem
 import com.uzuu.sobe.domain.model.init.listBanners
 import com.uzuu.sobe.domain.model.init.listCategories
 import com.uzuu.sobe.domain.model.init.listProducts
+import com.uzuu.sobe.ui.component.OutlinedBrushText
+import com.uzuu.sobe.ui.component.ProductCard
 import com.uzuu.sobe.ui.theme.AppDimens
 
 // Data classes
@@ -45,13 +52,6 @@ data class HomeUiState(
     val products: List<ProductItem> = listProducts,
     val selectedTab: Int = 0
 )
-
-data class CategoryItem(
-    val name: String,
-    val image: Int
-)
-
-
 
 // Main Screen - Chỉ nhận callback điều hướng
 @Composable
@@ -116,17 +116,23 @@ fun HomeScreenContent(
 
         Spacer(Modifier.height(24.dp))
 
-        // Tabs
-        TabSection(
-            selectedTab = uiState.selectedTab,
-            onTabSelected = onTabSelected
-        )
 
-        // Products Grid
-        ProductsGrid(
-            products = uiState.products,
-            onProductClick = onProductClick
-        )
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            TabSection(
+                selectedTab = uiState.selectedTab,
+                onTabSelected = onTabSelected
+            )
+
+            // Products Grid
+            ProductsGrid(
+                products = uiState.products,
+                onProductClick = onProductClick
+            )
+        }
+        // Tabs
+
 
         // Thêm padding dưới cùng để không bị che bởi bottom nav
         Spacer(Modifier.height(90.dp))
@@ -286,11 +292,12 @@ private fun CategoriesSection(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
-            Text(
+            OutlinedBrushText(
                 text = "Xem tất cả",
-                fontSize = 14.sp,
-                color = AppColor.Primary, // Quan trọng: set Unspecified khi dùng brush
-                modifier = Modifier.clickable { onCategoryAllClick() }
+                textColor = AppColor.Primary,
+                onClick = { },
+                outlineBrush = AppBrush.SageGradient,
+                corner = AppDimens.Corner.cornerRadiusLarge,
             )
         }
         Spacer(Modifier.height(12.dp))
@@ -306,41 +313,128 @@ private fun CategoriesSection(
         }
     }
 }
-
+//
+//@Composable
+//private fun CategoryCard(
+//    category: CategoryItem,
+//    onClick: () -> Unit
+//) {
+//    Column(
+//        modifier = Modifier
+//            .width(80.dp)
+//            .clickable { onClick() },
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Box(
+//            modifier = Modifier
+//                .size(80.dp)
+//                .clip(RoundedCornerShape(16.dp))
+//                .background(Color(0xFFF0F0F0))
+//        ) {
+//            Image(
+//                painter = painterResource(id = category.image),
+//                contentDescription = category.name,
+//                modifier = Modifier.fillMaxSize(),
+//                contentScale = ContentScale.Crop
+//            )
+//        }
+//        Spacer(Modifier.height(8.dp))
+//        Text(
+//            text = category.name,
+//            fontSize = 14.sp,
+//            color = Color.Black,
+//            textAlign = TextAlign.Center
+//        )
+//    }
+//}
+//
+//@Composable
+//fun CategoryCard(
+//    category : CategoryItem,
+//    onClick: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Card(
+//        modifier = modifier
+//            .height(150.dp)
+//            .clickable(onClick = onClick),
+//        shape = RoundedCornerShape(12.dp),
+//        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+//    ) {
+//        Box {
+//            // Background Image
+//            Image(
+//                painter = painterResource(id = category.image),
+//                contentDescription = category.name,
+//                modifier = Modifier.fillMaxSize()
+//                    .height(64.dp),
+//                contentScale = ContentScale.Crop
+//            )
+//
+//            // Dark overlay
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .background(Color.Black.copy(alpha = 0.3f))
+//            )
+//
+//            // Text
+//            Text(
+//                text = category.name,
+//                fontSize = 18.sp,
+//                fontWeight = FontWeight.Bold,
+//                color = Color.White,
+//                modifier = Modifier.align(Alignment.Center)
+//            )
+//        }
+//    }
+//}
 @Composable
-private fun CategoryCard(
-    category: CategoryItem,
+fun CategoryCard(
+    category : CategoryItem,
     onClick: () -> Unit
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .width(80.dp)
-            .clickable { onClick() },
-        horizontalAlignment = Alignment.CenterHorizontally
+            .width(150.dp)
+            .height(90.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .clickable { onClick() }
     ) {
+
+        Image(
+            painter = painterResource(category.image),
+            contentDescription = category.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // Lớp làm mờ tối phía dưới
         Box(
             modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFFF0F0F0))
-        ) {
-            Image(
-                painter = painterResource(id = category.image),
-                contentDescription = category.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-        }
-        Spacer(Modifier.height(8.dp))
+                .fillMaxWidth()
+                .height(40.dp)
+                .align(Alignment.BottomCenter)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.55f)
+                        )
+                    )
+                )
+        )
+
         Text(
             text = category.name,
-            fontSize = 14.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp)
         )
     }
 }
-
 @Composable
 private fun TabSection(
     selectedTab: Int,
@@ -348,15 +442,17 @@ private fun TabSection(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         TabItem(
             text = "Dành cho bạn",
             isSelected = selectedTab == 0,
             onClick = { onTabSelected(0) }
         )
+        Spacer(Modifier.width(AppDimens.Spacing.spacingLarge))
+
         TabItem(
             text = "Giá tốt",
             isSelected = selectedTab == 1,
@@ -374,12 +470,12 @@ private fun TabItem(
 ) {
     Text(
         text = text,
-        fontSize = 16.sp,
-        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-        color = if (isSelected) Color(0xFF2E7D32) else Color.Gray,
+        color = if (isSelected) AppColor.Primary else AppColor.neutral300,
         modifier = Modifier
             .clickable { onClick() }
-            .padding(vertical = 8.dp)
+            .padding(vertical = 8.dp),
+        style = AppTextStyles.Heading3,
+        textDecoration = if (isSelected) TextDecoration.Underline else TextDecoration.None
     )
 }
 
@@ -398,61 +494,6 @@ private fun ProductsGrid(
             ProductCard(
                 product = product,
                 onClick = { onProductClick(product.name) }
-            )
-        }
-    }
-}
-
-@Composable
-private fun ProductCard(
-    product: ProductItem,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
-            .clickable { onClick() }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                .background(Color(0xFFF5F5F5))
-        ) {
-            Image(
-                painter = painterResource(id = product.image),
-                contentDescription = product.name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_heart_outline),
-                contentDescription = "Wishlist",
-                tint = Color.White,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(20.dp)
-                    .align(Alignment.TopEnd)
-            )
-        }
-        Column(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text(
-                text = product.name,
-                fontSize = 12.sp,
-                color = Color.Black,
-                maxLines = 2
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text = product.price,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFE91E63)
             )
         }
     }

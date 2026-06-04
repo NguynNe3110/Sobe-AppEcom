@@ -18,9 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,8 +34,8 @@ fun ItemList(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(AppColor.neutral1000) // màu nền xám nhạt
             .clip(RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge))
+            .background(AppColor.neutral1000) // màu nền xám nhạt
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 14.dp)
             .height(40.dp),
@@ -61,10 +58,10 @@ fun ItemList(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun Pre() {
-     ItemList(
+    ItemList(
         text = "Thong tin tai khoan",
         onClick = {}
     )

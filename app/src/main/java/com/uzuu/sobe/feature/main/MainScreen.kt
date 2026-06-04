@@ -128,8 +128,17 @@ fun MainScreen() {
                         onProductClick = {}
                     )
                 }
-                composable(Screen.Community.route) { CommunityScreen() }
-                composable(Screen.Message.route) { MessageScreen() }
+                composable(Screen.Community.route) {
+                    CommunityScreen(
+                        onPostClick = {},
+                        onNavigateToPost = {}
+                    )
+                }
+                composable(Screen.Message.route) {
+                    MessageScreen(
+
+                    )
+                }
                 composable(Screen.Account.route) {
                     ProfileScreen(
                         onNavigateToOrders = {},
