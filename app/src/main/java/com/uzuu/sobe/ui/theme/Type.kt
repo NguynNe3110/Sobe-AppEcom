@@ -16,6 +16,10 @@ val InterFontFamily = FontFamily(
   Font(R.font.inter_bold, FontWeight.Bold)          // 700
 )
 
+val ProstoOneFontFamily = FontFamily(
+  Font(R.font.prostoone_regular, FontWeight.Normal)    // 400
+)
+
 // Định nghĩa Typography theo thiết kế Figma
 val AppTypography = Typography(
   // ===== HEADINGS =====

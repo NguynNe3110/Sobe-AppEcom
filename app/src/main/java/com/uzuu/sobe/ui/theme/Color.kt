@@ -63,6 +63,7 @@ object AppColor{
     val Primary = sage500
     val OnPrimary = Color.White
     val Secondary = darkRed
+    val Beige = beige
 
     val PrimaryVariant = Color(0xFF5F765B)
     val PrimaryLight = Color(0xFFB9C7B7)

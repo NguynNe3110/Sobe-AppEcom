@@ -18,7 +18,7 @@ fun AppNavHost(
         // Splash Screen
         composable(Screen.Splash.route) {
             SplashScreen(
-                onTimeout = {
+                onSplashFinished = {
                     // Giả lập kiểm tra đăng nhập
                     // Nếu đã login thì qua Home, chưa login thì qua Login
                     navController.navigate(Screen.Login.route) {
