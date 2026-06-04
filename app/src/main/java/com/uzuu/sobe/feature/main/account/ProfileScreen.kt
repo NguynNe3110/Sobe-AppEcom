@@ -38,11 +38,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sobe.ui.theme.AppTextStyles
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
@@ -74,24 +76,24 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .background(Color(0xFFF5F5F5))
+                .background(AppColor.textSage1000)
         ) {
             // Top App Bar
             TopAppBar(
                 title = {
                     Text(
-                        text = "Tài khoản",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2E7D32)
+                        text = "Cộng đồng",
+                        style = AppTextStyles.Heading1 + TextStyle(AppBrush.SageGradient),
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 actions = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { /* Search */ }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_cart),
+                            painter = painterResource(R.drawable.ic_cart),
                             contentDescription = "Cart",
-                            tint = Color(0xFF2E7D32)
+                            modifier = Modifier.size(17.dp),
+                            tint = Color.Unspecified
                         )
                     }
                 },
@@ -101,12 +103,11 @@ fun ProfileScreen(
             )
 
             // User Profile Section
-            Card(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                color = Color.White
             ) {
                 Row(
                     modifier = Modifier
@@ -183,12 +184,11 @@ fun ProfileScreen(
             }
 
             // Menu Grid
-            Card(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                color = Color.White
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp)
@@ -242,12 +242,12 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
+                    .background(Color.White)
             ) {
                 Text(
                     text = "Đã xem gần đây",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    style = AppTextStyles.Heading3,
+                    color = AppColor.neutral300,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
 
@@ -267,12 +267,11 @@ fun ProfileScreen(
             }
 
             // Invite Friends Section
-            Card(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                color = Color.White
             ) {
                 Column(
 
@@ -291,34 +290,6 @@ fun ProfileScreen(
                     )
                 }
             }
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(16.dp),
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.ic_invite),
-//                        contentDescription = "Invite",
-//                        tint = Color(0xFF2E7D32),
-//                        modifier = Modifier.size(24.dp)
-//                    )
-//                    Spacer(modifier = Modifier.width(12.dp))
-//                    Text(
-//                        text = "Mời bạn bè nhận quà",
-//                        fontSize = 14.sp,
-//                        color = Color(0xFF2E7D32),
-//                        modifier = Modifier.weight(1f)
-//                    )
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.ic_chevron_right),
-//                        contentDescription = "Next",
-//                        tint = Color.Gray,
-//                        modifier = Modifier.size(20.dp)
-//                    )
-//                }
-//            }
-
 
             Spacer(modifier = Modifier.height(16.dp))
         }

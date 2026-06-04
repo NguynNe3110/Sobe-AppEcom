@@ -54,13 +54,12 @@ fun PostCard(
     onPostClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
+    Surface(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        onClick = onPostClick
+        onClick = onPostClick,
+        color = Color.White
     ) {
         Column {
             // Image Section
@@ -104,10 +103,9 @@ fun PostCard(
                 // Title
                 Text(
                     text = post.title,
-                    style = MaterialTheme.typography.bodyLarge,
+                    fontSize = 12.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -126,7 +124,7 @@ fun PostCard(
                             painter = painterResource(id = post.authorAvatar),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(24.dp)
+                                .size(16.dp)
                                 .clip(CircleShape),
                             contentScale = ContentScale.Crop
                         )
@@ -135,8 +133,8 @@ fun PostCard(
 
                         Text(
                             text = post.authorName,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color.Gray
+                            style = AppTextStyles.Subtitle,
+                            color = AppColor.neutral500
                         )
                     }
 
@@ -155,14 +153,14 @@ fun PostCard(
                             ),
                             contentDescription = "Like",
                             tint = if (post.isLiked) Color.Red else Color.Gray,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(12.dp)
                         )
 
                         Spacer(modifier = Modifier.width(4.dp))
 
                         Text(
                             text = post.likesCount.toString(),
-                            style = MaterialTheme.typography.labelMedium,
+                            fontSize = 12.sp,
                             color = Color.Gray
                         )
                     }

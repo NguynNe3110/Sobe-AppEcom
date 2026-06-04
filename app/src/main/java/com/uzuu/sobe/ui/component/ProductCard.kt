@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.AppColor
@@ -81,7 +82,8 @@ fun ProductCard(
                 fontSize = 12.sp,
                 color = AppColor.neutral300,
                 maxLines = 2,
-                modifier = Modifier.height(32.dp)
+                minLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(Modifier.height(4.dp))

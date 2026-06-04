@@ -79,9 +79,9 @@ fun CommunityScreen(
                 actions = {
                     IconButton(onClick = { /* Search */ }) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_search),
+                            painter = painterResource(R.drawable.ic_search_gr),
                             contentDescription = "Cart",
-                            modifier = Modifier.size(24.dp),
+                            modifier = Modifier.size(17.dp),
                             tint = Color.Unspecified
                         )
                     }
@@ -94,16 +94,17 @@ fun CommunityScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onNavigateToPost,
+                modifier = Modifier.height(40.dp),
                 icon = {
                     Icon(
                     painter = painterResource(R.drawable.ic_add_fab),
                     contentDescription = "Cart",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(12.dp),
                     tint = Color.Unspecified
                     )
                 },
                 text = { Text("Đăng bài") },
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = AppColor.Secondary.copy(alpha = 0.8f),
                 contentColor = Color.White,
                 elevation = FloatingActionButtonDefaults.elevation(
                     defaultElevation = 6.dp

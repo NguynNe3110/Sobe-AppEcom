@@ -43,6 +43,7 @@ import com.uzuu.sobe.domain.model.init.listCategories
 import com.uzuu.sobe.domain.model.init.listProducts
 import com.uzuu.sobe.ui.component.OutlinedBrushText
 import com.uzuu.sobe.ui.component.ProductCard
+import com.uzuu.sobe.ui.component.TabItem
 import com.uzuu.sobe.ui.theme.AppDimens
 
 // Data classes
@@ -462,22 +463,7 @@ private fun TabSection(
     Spacer(Modifier.height(16.dp))
 }
 
-@Composable
-private fun TabItem(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Text(
-        text = text,
-        color = if (isSelected) AppColor.Primary else AppColor.neutral300,
-        modifier = Modifier
-            .clickable { onClick() }
-            .padding(vertical = 8.dp),
-        style = AppTextStyles.Heading3,
-        textDecoration = if (isSelected) TextDecoration.Underline else TextDecoration.None
-    )
-}
+
 
 @Composable
 private fun ProductsGrid(

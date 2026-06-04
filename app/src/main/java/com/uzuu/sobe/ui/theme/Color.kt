@@ -105,6 +105,7 @@ object AppColor{
     val black = Color(0xFF000000)
 
     val textSage100 = sage100
+    val textSage1000 =  sage1000
 }
 
 object AppBrush {

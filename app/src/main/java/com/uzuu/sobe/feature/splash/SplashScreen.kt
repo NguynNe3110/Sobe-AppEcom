@@ -59,7 +59,7 @@ fun SplashScreen(
         delay(800)
         phase = 5 // Column dịch lên, slogan hiện ra
 
-        delay(400)
+        delay(700)
         onSplashFinished()
     }
 
