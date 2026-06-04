@@ -241,7 +241,6 @@ fun RegisterScreenContent(
                         color = AppColor.neutral300, // Màu chữ đen/xám đậm
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Medium,
-                        textDecoration = TextDecoration.Underline
                     )
 
                     // Spacer vô hình bên phải để bù trừ cho padding start của icon,

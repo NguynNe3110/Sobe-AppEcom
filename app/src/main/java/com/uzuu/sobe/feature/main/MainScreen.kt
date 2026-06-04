@@ -1,5 +1,7 @@
 package com.uzuu.sobe.feature.main
 
+import com.uzuu.sobe.R
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -39,14 +41,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.ui.theme.AppBrush
+import com.example.ui.theme.AppColor
 import com.uzuu.sobe.feature.main.account.AccountScreen
 import com.uzuu.sobe.feature.main.community.CommunityScreen
 import com.uzuu.sobe.feature.main.home.HomeScreen
@@ -55,20 +62,21 @@ import com.uzuu.sobe.feature.main.shopping.ShoppingScreen
 import com.uzuu.sobe.ui.navigation.Screen
 
 // 1. DATA MODEL: Định nghĩa rõ ràng Icon được chọn và chưa được chọn
+// 1. DATA MODEL
 data class BottomNavItem(
     val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    @DrawableRes val selectedIcon: Int, // Thay ImageVector bằng Int (Drawable Resource ID)
+    @DrawableRes val unselectedIcon: Int,
     val route: String
 )
 
 // 2. DANH SÁCH ITEMS: Ánh xạ đúng với Screen.route của bạn
 val bottomNavItems = listOf(
-    BottomNavItem("Trang chủ", Icons.Filled.Home, Icons.Outlined.Home, Screen.Home.route),
-    BottomNavItem("Mua sắm", Icons.Filled.ShoppingCart, Icons.Outlined.ShoppingCart, Screen.Shopping.route),
-    BottomNavItem("Cộng đồng", Icons.Filled.GpsFixed, Icons.Outlined.GpsFixed, Screen.Community.route),
-    BottomNavItem("Tin nhắn", Icons.Filled.Message, Icons.Outlined.Message, Screen.Message.route),
-    BottomNavItem("Tài khoản", Icons.Filled.AccountCircle, Icons.Outlined.AccountCircle, Screen.Account.route)
+    BottomNavItem("Trang chủ",  R.drawable.ic_home_selected, R.drawable.ic_home_unselected, Screen.Home.route),
+    BottomNavItem("Mua sắm", R.drawable.ic_shopping_selected, R.drawable.ic_shopping_unselected, Screen.Shopping.route),
+    BottomNavItem("Cộng đồng", R.drawable.ic_community_selected, R.drawable.ic_community_unselected, Screen.Community.route),
+    BottomNavItem("Tin nhắn", R.drawable.ic_chat_selected, R.drawable.ic_chat_unselected, Screen.Message.route),
+    BottomNavItem("Tài khoản", R.drawable.ic_profile_selected, R.drawable.ic_profile_unselected, Screen.Account.route)
 )
 
 // 3. MAIN SCREEN: Ghép nối Scaffold, NavHost và Custom Bottom Bar
@@ -182,19 +190,17 @@ fun BottomBarItemAnimated(
             .height(40.dp)
             .clickable { onClick() }
             .clip(RoundedCornerShape(20.dp))
-            .background(backgroundColor),
+            .background(AppBrush.SageGradient), // THAY ĐỔI: Truyền Brush thay vì Color
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Icon(
-            // Đổi icon dựa trên trạng thái
-            imageVector = if (isSelected) item.selectedIcon else item.unselectedIcon,
+            painter = painterResource(id = if (isSelected) item.selectedIcon else item.unselectedIcon),
             contentDescription = item.title,
             tint = contentColor,
             modifier = Modifier.size(iconSize)
         )
 
-        // Hiệu ứng chữ trượt ra mượt mà
         AnimatedVisibility(
             visible = isSelected,
             enter = fadeIn() + expandHorizontally(expandFrom = Alignment.Start),
@@ -208,4 +214,12 @@ fun BottomBarItemAnimated(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewMainScreen() {
+    MainScreen(
+        onLogout = {}
+    )
 }

@@ -5,11 +5,11 @@ import com.uzuu.sobe.R
 object AppIcons {
     //navigation
     object Navigation{
-        val Home = R.drawable.ic_home
-        val Chat = R.drawable.ic_chat
-        val Community = R.drawable.ic_community
-        val Profile = R.drawable.ic_profile
-        val Shopping = R.drawable.ic_shopping
+//        val Home = R.drawable.ic_home
+//        val Chat = R.drawable.ic_chat_selected
+//        val Community = R.drawable.ic_community
+//        val Profile = R.drawable.ic_profile
+//        val Shopping = R.drawable.ic_shopping
     }
 
 
