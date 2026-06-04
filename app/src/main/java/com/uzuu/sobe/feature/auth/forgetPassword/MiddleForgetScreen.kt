@@ -46,15 +46,28 @@ import com.uzuu.sobe.R
 import com.uzuu.sobe.ui.component.button.GradientButton
 import com.uzuu.sobe.ui.theme.AppDimens
 
+@Composable
+fun MiddleForgetScreen(
+    onClickConfirm: () -> Unit ,
+    onRequestAgain: () -> Unit,
+    onBackClick: () -> Unit,
+) {
+    MiddleForgetScreenContent(
+        onClickConfirm = onClickConfirm,
+        onRequestAgain = onRequestAgain,
+        onBackClick = onBackClick
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiddleForgetScreenContent(
     otpCode: String = "", // Nhận mã OTP từ bên ngoài
     isTimerActive: Boolean = true, // Trạng thái đếm ngược
     timeRemaining: String = "01:52", // Thời gian còn lại
-    onClickConfirm: () -> Unit = {},
-    onRequestAgain: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onClickConfirm: () -> Unit ,
+    onRequestAgain: () -> Unit,
+    onBackClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -203,6 +216,9 @@ fun PreviewMiddleForgetScreen() {
     MiddleForgetScreenContent(
         otpCode = "12",
         isTimerActive = true,
-        timeRemaining = "01:52"
+        timeRemaining = "01:52",
+        onClickConfirm = {},
+        onRequestAgain = {},
+        onBackClick = {}
     )
 }

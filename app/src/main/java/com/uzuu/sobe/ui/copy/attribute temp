@@ -34,6 +34,8 @@ shape = RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge),
                     text = "ĐĂNG KÝ TÀI KHOẢN",
                     color = AppColor.Primary,
                     style = TextStyle(AppBrush.SageGradient) + AppTextStyles.Heading1,
+                    textDecoration = TextDecoration.Underline
+
                     )
 
 

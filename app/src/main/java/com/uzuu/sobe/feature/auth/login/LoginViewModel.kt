@@ -17,6 +17,8 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
+// thieest laajp them uiEvnet shared flow hoạc channel dẻ emit bên kia hứng
+
     // 3. Các hàm cập nhật state
     fun onPhoneChanged(phone: String) {
         _uiState.value = _uiState.value.copy(phone = phone)

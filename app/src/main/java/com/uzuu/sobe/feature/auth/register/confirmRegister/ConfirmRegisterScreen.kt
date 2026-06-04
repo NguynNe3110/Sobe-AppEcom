@@ -69,8 +69,10 @@ fun ConfirmRegisterScreen(
     // thu thaajp uistate
     ConfirmRegisterScreenContent(
         uiState = uiState,
-        onClickComfirm = viewModel::onClickComfirm,
-        onRequestAgain = viewModel::onRequestAgain
+//        onClickComfirm = viewModel::onClickComfirm,
+//        onRequestAgain = viewModel::onRequestAgain
+        onClickComfirm = onClickComfirm,
+        onRequestAgain = onRequestAgain
     )
 }
 
@@ -216,7 +218,7 @@ fun ConfirmRegisterScreenContent(
                     text = "Xác nhận",
                     brush = AppBrush.SageGradient,
                     onClick = onClickComfirm,
-                    enabled = otpCode.length == 4, // Chỉ bật khi đủ 4 số
+//                    enabled = otpCode.length == 4, // Chỉ bật khi đủ 4 số
                     contentPadding = PaddingValues(horizontal = 24.dp),
                     shape = RoundedCornerShape(25.dp), // Bo tròn kiểu pill
                     textStyle = AppTextStyles.Heading3.copy(color = Color.White),

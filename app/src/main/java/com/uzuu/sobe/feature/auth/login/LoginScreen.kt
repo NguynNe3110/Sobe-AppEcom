@@ -49,6 +49,7 @@ fun LoginScreen(
     // 1. Thu thập state từ ViewModel
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    // khoi tạo collect = compose, sau dó gọi hàm. giống bên register
     RegisterScreenContent(
         uiState = uiState,
         onPhoneChanged = viewModel::onPhoneChanged,
@@ -57,9 +58,9 @@ fun LoginScreen(
         onGoogleLogin = viewModel::onGoogleLogin,
         onFacebookLogin = viewModel::onFacebookLogin,
 
-        onNavigateToRegister = viewModel::onNavigateToRegister,
-        onNavigateToHome = viewModel::onNavigateToHome,
-        onNavigateToForgetPassword = viewModel::onNavigateToForgetPassword
+        onNavigateToRegister = onNavigateToRegister,
+        onNavigateToHome = onNavigateToHome,
+        onNavigateToForgetPassword = onNavigateToForgetPassword
     )
 }
 
@@ -129,7 +130,7 @@ fun RegisterScreenContent(
 
             // Input Số điện thoại
             OutlinedTextField(
-                value = uiState.phone, // Lấy giá trị từ state
+                value = "0987654322", // Lấy giá trị từ state
                 onValueChange = onPhoneChanged, // Gọi hàm từ VM
                 label = { Text("Số điện thoại") },
                 modifier = Modifier.fillMaxWidth()
@@ -159,7 +160,7 @@ fun RegisterScreenContent(
 
             // Input Mật khẩu
             OutlinedTextField(
-                value = uiState.password,
+                value = "uiStatepassword",
                 onValueChange = onPasswordChanged,
                 label = { Text("Mật khẩu" ) },
                 trailingIcon = {
@@ -179,6 +180,15 @@ fun RegisterScreenContent(
                     .heightIn(min = 56.dp, max = 56.dp), // ← Fix cứng cả min lẫn max
                 shape = MaterialTheme.shapes.extraLarge
             )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(onClick = onNavigateToRegister) {
+                    Text("Quên mật khẩu", color = Color(0xFF5C7A65))
+                }
+            }
 
             Spacer(Modifier.height(24.dp))
 
