@@ -125,13 +125,14 @@ fun ShoppingScreen(
 
             // Products Grid - Luôn hiển thị cùng 1 list
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Adaptive(minSize = 160.dp),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(8.dp)
+                    .background(Color(0xFFF5F5F5))
+                    .padding(horizontal = 16.dp), // Padding chung cho toàn bộ lưới
+                contentPadding = PaddingValues(bottom = 90.dp, top = 8.dp), // Chừa đáy cho BottomNav
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(products) { product ->
                     ProductCard(
