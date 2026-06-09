@@ -23,11 +23,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -36,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sobe.ui.theme.AppTextStyles
+import com.example.sobe.ui.theme.ProstoOneFontFamily
 import com.example.ui.theme.AppBrush
 import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
@@ -148,22 +151,41 @@ fun SearchBar(
     onKeywordChange: (String) -> Unit,
 //    modifier: Modifier = Modifier
 ) {
+    //responsive mức 2 (có thẻ dung  windowsizeClass)
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
     ) {
+        val currentMaxWidth = maxWidth
+
         Row(
             modifier = Modifier.fillMaxWidth(),
 //            .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
 
             ) {
-            if(maxWidth > 600.dp) {
+            if(currentMaxWidth > 600.dp) {
                 Icon(
-                    modifier = Modifier.background(AppColor.Primary)
-                        .size(30.dp),
+                    modifier = Modifier
+                        .size(45.dp),
                     painter = painterResource(R.drawable.logo_sobe),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = AppColor.Primary
                 )
+
+                Spacer(Modifier.width(12.dp))
+
+                Text(
+                    text = "SOBE",
+                    color = AppColor.Primary,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    style = TextStyle(
+                        fontFamily = ProstoOneFontFamily
+                    )
+                )
+
+                Spacer(Modifier.width(12.dp))
+
             } else {
 
             }
