@@ -6,8 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -29,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,55 +91,54 @@ fun HomeScreenContent(
     onTabSelected: (Int) -> Unit,
     onSearchClick: () -> Unit
 ) {
-    // Không dùng Scaffold nữa vì MainScreen đã có rồi
-    Column(
+    // ✅ SỬA LỖI: Dùng 1 LazyVerticalGrid duy nhất cho toàn màn hình
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 160.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
-            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp), // Padding chung cho toàn bộ lưới
+        contentPadding = PaddingValues(bottom = 90.dp, top = 8.dp), // Chừa đáy cho BottomNav
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Spacer(Modifier.height(8.dp))
+        // ✅ Search Bar: Chiếm FULL chiều rộng của Grid
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            SearchBar(
+                keyword = uiState.searchQuery,
+                onKeywordChange = onSearchQueryChanged,
+            )
+        }
 
-        // Search Bar
-        SearchBar(
-            keyword = uiState.searchQuery,
-            onKeywordChange = onSearchQueryChanged,
-        )
+        // ✅ Banner: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            PromotionalBanner()
+        }
 
-        // Banner
-        PromotionalBanner()
+        // ✅ Categories: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            CategoriesSection(
+                categories = uiState.categories,
+                onCategoryClick = onCategoryClick,
+                onCategoryAllClick = onCategoryAllClick,
+            )
+        }
 
-        Spacer(Modifier.height(24.dp))
-
-        // Categories
-        CategoriesSection(
-            categories = uiState.categories,
-            onCategoryClick = onCategoryClick,
-            onCategoryAllClick = onCategoryAllClick,
-        )
-
-        Spacer(Modifier.height(24.dp))
-
-
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        // ✅ Tabs: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
             TabSection(
                 selectedTab = uiState.selectedTab,
                 onTabSelected = onTabSelected
             )
+        }
 
-            // Products Grid
-            ProductsGrid(
-                products = uiState.products,
-                onProductClick = onProductClick
+        // ✅ Products: Tự động chia cột, không cần hàm ProductsGrid riêng nữa
+        items(uiState.products) { product ->
+            ProductCard(
+                product = product,
+                onClick = { onProductClick(product.name) }
             )
         }
-        // Tabs
-
-
-        // Thêm padding dưới cùng để không bị che bởi bottom nav
-        Spacer(Modifier.height(90.dp))
     }
 }
 
@@ -146,74 +148,88 @@ fun SearchBar(
     onKeywordChange: (String) -> Unit,
 //    modifier: Modifier = Modifier
 ) {
-    Row(
+    BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+//            .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
 
-        OutlinedTextField(
-            value = keyword,
-            onValueChange = onKeywordChange,
-
-            modifier = Modifier
-                .weight(1f)
-                .height(52.dp),
-
-            singleLine = true,
-
-            placeholder = {
-                Text("Bạn muốn tìm kiếm gì")
-            },
-
-            leadingIcon = {
+            ) {
+            if(maxWidth > 600.dp) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_search),
+                    modifier = Modifier.background(AppColor.Primary)
+                        .size(30.dp),
+                    painter = painterResource(R.drawable.logo_sobe),
                     contentDescription = null
                 )
-            },
+            } else {
 
-            trailingIcon = {
-                IconButton(
-                    onClick = { onKeywordChange("") }
-                ) {
+            }
+
+            OutlinedTextField(
+                value = keyword,
+                onValueChange = onKeywordChange,
+
+                modifier = Modifier
+                    .weight(1f)
+                    .height(52.dp),
+
+                singleLine = true,
+
+                placeholder = {
+                    Text("Bạn muốn tìm kiếm gì")
+                },
+
+                leadingIcon = {
                     Icon(
-                        painter = painterResource(R.drawable.ic_cancel),
+                        painter = painterResource(R.drawable.ic_search),
                         contentDescription = null
                     )
-                }
-            },
+                },
 
-            shape = RoundedCornerShape(24.dp),
-            colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
+                trailingIcon = {
+                    IconButton(
+                        onClick = { onKeywordChange("") }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_cancel),
+                            contentDescription = null
+                        )
+                    }
+                },
 
-                // Màu viền
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedIndicatorColor = AppColor.Primary,      // Viền khi focus
-                unfocusedIndicatorColor = AppColor.neutral300,  // Viền bình thường
-                disabledIndicatorColor = AppColor.neutral300,
+                shape = RoundedCornerShape(24.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
 
-                // Màu Label
-                focusedLabelColor = AppColor.Primary,
-                unfocusedLabelColor = AppColor.neutral500,
+                    // Màu viền
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = AppColor.Primary,      // Viền khi focus
+                    unfocusedIndicatorColor = AppColor.neutral300,  // Viền bình thường
+                    disabledIndicatorColor = AppColor.neutral300,
 
-                // Màu con trỏ
-                cursorColor = AppColor.Primary
+                    // Màu Label
+                    focusedLabelColor = AppColor.Primary,
+                    unfocusedLabelColor = AppColor.neutral500,
+
+                    // Màu con trỏ
+                    cursorColor = AppColor.Primary
+                )
             )
-        )
 
-        Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(12.dp))
 
-        Icon(
-            painter = painterResource(R.drawable.ic_cart),
-            contentDescription = "Cart",
-            modifier = Modifier.size(24.dp),
-            tint = Color.Unspecified
-        )
+            Icon(
+                painter = painterResource(R.drawable.ic_cart),
+                contentDescription = "Cart",
+                modifier = Modifier.size(24.dp),
+                tint = Color.Unspecified
+            )
+        }
     }
 }
 
@@ -234,7 +250,7 @@ fun PromotionalBanner() {
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+//                .padding(horizontal = 16.dp)
                 .height(160.dp)
         ) { page ->
 
@@ -280,7 +296,7 @@ private fun CategoriesSection(
     onCategoryAllClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+//        modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -471,8 +487,8 @@ private fun ProductsGrid(
     onProductClick: (String) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier.padding(horizontal = 16.dp).height(1000.dp),
+        columns = GridCells.Adaptive(minSize = 140.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -486,6 +502,18 @@ private fun ProductsGrid(
 }
 
 @Preview(showBackground = true)
+@Preview(
+    name = "Phone - Portrait",
+    device = Devices.PIXEL_5
+)
+@Preview(
+    name = "Tablet - Landscape",
+    device = Devices.PIXEL_C
+)
+@Preview(
+    name = "Foldable",
+    device = Devices.FOLDABLE
+)
 @Composable
 fun PreviewHomeScreen() {
     HomeScreenContent(

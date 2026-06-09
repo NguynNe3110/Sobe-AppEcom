@@ -17,7 +17,7 @@ shape = RoundedCornerShape(AppDimens.Corner.cornerRadiusLarge),
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_enter), // Hoặc ic_arrow_enter của bạn
                             contentDescription = "enter home",
-                            tint = Color.White,
+                            tint = Color.Red,
                             modifier = Modifier.size(AppDimens.IconSize.IconSmall)
                         )
 
