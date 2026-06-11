@@ -52,80 +52,87 @@ import com.uzuu.sobe.ui.theme.AppDimens
 @Composable
 fun ChatListItem(
     chatItem: ChatItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit, // Sự kiện click
+    isSelected: Boolean = false // Để highlight
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        onClick = onClick,
+        color = if (isSelected) Color(0xFFE8F5E9) else Color.White, // Highlight nhẹ nếu đang chọn
+        modifier = Modifier.fillMaxWidth()
     ) {
-        // Avatar
-        Image(
-            painter = painterResource(id = chatItem.userAvatar),
-            contentDescription = chatItem.userName,
-            modifier = Modifier
-                .size(50.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        // Content
-        Column(
-            modifier = Modifier.weight(1f)
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Name and Time
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            // Avatar
+            Image(
+                painter = painterResource(id = chatItem.userAvatar),
+                contentDescription = chatItem.userName,
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // Content
+            Column(
+                modifier = Modifier.weight(1f)
             ) {
-                Text(
-                    text = chatItem.userName,
-                    style = if (chatItem.isReplied) AppTextStyles.Heading3 else AppTextStyles.InputText,
-                    fontWeight = FontWeight.SemiBold
-                )
-
-                Text(
-                    text = chatItem.time,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
-                )
-            }
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // Message with red dot indicator
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Red dot for unread/not replied
-                if (!chatItem.isReplied) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .background(AppColor.Secondary, CircleShape)
+                // Name and Time
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = chatItem.userName,
+                        style = if (chatItem.isReplied) AppTextStyles.Heading3 else AppTextStyles.InputText,
+                        fontWeight = FontWeight.SemiBold
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = chatItem.time,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
                 }
 
-                Text(
-                    text = chatItem.message,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = if (chatItem.isReplied) Color.Gray else Color.Black,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Message with red dot indicator
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Red dot for unread/not replied
+                    if (!chatItem.isReplied) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .background(AppColor.Secondary, CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+
+                    Text(
+                        text = chatItem.message,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (chatItem.isReplied) Color.Gray else Color.Black,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                // Divider
+                Divider(
+                    modifier = Modifier.padding(start = 78.dp),
+                    color = Color.LightGray.copy(alpha = 0.3f)
                 )
             }
         }
     }
-
-    // Divider
-    Divider(
-        modifier = Modifier.padding(start = 78.dp),
-        color = Color.LightGray.copy(alpha = 0.3f)
-    )
 }
 
 @Preview
@@ -139,6 +146,8 @@ fun PreChatListItem() {
             message = "Em chắc chắn sẽ tham gia ạ",
             time = "Hôm nay",
             isReplied = false
-        )
+        ),
+        onClick = { },
+        isSelected = true
     )
 }

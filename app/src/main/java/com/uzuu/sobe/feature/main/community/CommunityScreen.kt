@@ -25,6 +25,7 @@ import com.example.ui.theme.AppColor
 import com.uzuu.sobe.R
 import com.uzuu.sobe.domain.model.PostItem
 import com.uzuu.sobe.domain.model.init.listPosts
+import com.uzuu.sobe.feature.main.account.ProfileScreen
 import com.uzuu.sobe.ui.component.PostCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +103,7 @@ private fun CommunityExpandedContent(
         selectedTab = selectedTab,
         onTabSelected = onTabSelected,
         onNavigateToPost = onNavigateToPost,
-        gridColumns = GridCells.Adaptive(250.dp), // Tablet: Tự động chia cột rộng 250dp
+        gridColumns = GridCells.Adaptive(240.dp), // Tablet: Tự động chia cột rộng 250dp
         posts = posts,
         onPostClick = onPostClick
     )
@@ -219,7 +220,26 @@ fun PreviewCommunityCompact() {
 @Composable
 fun PreviewCommunityExpanded() {
     CommunityScreen(
-        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(900.dp, 1280.dp)),
+        windowSizeClass = WindowSizeClass.calculateFromSize(
+            size = DpSize(width = 1280.dp, height = 800.dp) // Kích thước chuẩn cho Expanded
+        ),
+        onPostClick = {},
+        onNavigateToPost = {}
+    )
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(
+    name = "Foldable",
+    device = Devices.FOLDABLE,
+    showBackground = true
+)
+@Composable
+fun PreviewProfileScreen_Foldable() {
+    CommunityScreen(
+        windowSizeClass = WindowSizeClass.calculateFromSize(
+            size = DpSize(width = 673.dp, height = 841.dp) // Kích thước chuẩn cho Expanded
+        ),
         onPostClick = {},
         onNavigateToPost = {}
     )

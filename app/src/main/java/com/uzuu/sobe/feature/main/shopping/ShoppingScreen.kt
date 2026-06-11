@@ -40,7 +40,6 @@ fun ShoppingScreen(
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Tất cả", "Thời trang nữ", "Thời trang nam", "Thời trang trẻ em")
 
-    // ✅ LOGIC RESPONSIVE: Quyết định cấu trúc layout dựa trên Size Class
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             ShoppingCompactContent(
@@ -63,7 +62,6 @@ fun ShoppingScreen(
     }
 }
 
-// 🟢 LAYOUT CHO MOBILE (COMPACT)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingCompactContent(
@@ -98,7 +96,6 @@ fun ShoppingCompactContent(
     }
 }
 
-// 🔵 LAYOUT CHO TABLET (MEDIUM & EXPANDED)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingExpandedContent(
@@ -108,19 +105,17 @@ fun ShoppingExpandedContent(
     onTabSelected: (Int) -> Unit,
     onProductClick: (String) -> Unit
 ) {
-    // 💡 Mẹo: Tôi đã tinh chỉnh lại một chút thông số cho Tablet
-    // (tăng minSize của Grid và padding) để giao diện thoáng hơn trên màn hình lớn.
     Scaffold(
         topBar = { ShoppingTopAppBar() },
         containerColor = Color.White
     ) { paddingValues ->
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 180.dp), // ✅ Tăng kích thước tối thiểu của item
+            columns = GridCells.Adaptive(minSize = 200.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF5F5F5))
                 .padding(paddingValues)
-                .padding(horizontal = 24.dp), // ✅ Tăng padding ngang
+                .padding(horizontal = 24.dp),
             contentPadding = PaddingValues(bottom = 90.dp, top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -135,7 +130,7 @@ fun ShoppingExpandedContent(
     }
 }
 
-// 🔧 HÀM TÁCH RIÊNG: Giúp 2 layout trên không bị lặp code TopAppBar
+//  TopAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ShoppingTopAppBar() {
@@ -171,12 +166,11 @@ private fun ShoppingTopAppBar() {
     )
 }
 
-// ✅ ĐÃ SỬA LỖI: Thêm callback onTabSelected để cập nhật state
 @Composable
 fun TabSection(
     tabs: List<String>,
     selectedTab: Int,
-    onTabSelected: (Int) -> Unit // 👈 Thêm tham số này
+    onTabSelected: (Int) -> Unit
 ) {
     ScrollableTabRow(
         selectedTabIndex = selectedTab,
@@ -187,7 +181,7 @@ fun TabSection(
         tabs.forEachIndexed { index, title ->
             Tab(
                 selected = selectedTab == index,
-                onClick = { onTabSelected(index) }, // 👈 Gọi callback thay vì gán trực tiếp
+                onClick = { onTabSelected(index) },
                 text = {
                     Text(
                         text = title,
@@ -218,7 +212,7 @@ fun PreviewShoppingScreen_Phone() {
 @Composable
 fun PreviewShoppingScreen_Tablet() {
     ShoppingScreen(
-        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(900.dp, 1280.dp)),
+        windowSizeClass = WindowSizeClass.calculateFromSize(DpSize(width = 1280.dp, height = 800.dp)),
         onProductClick = {}
     )
 }

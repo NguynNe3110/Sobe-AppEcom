@@ -307,8 +307,6 @@ fun ProfileCompactContent(
     }
 }
 
-// ✅ Giao diện cho Tablet / Foldable (Medium & Expanded)
-// Hiện tại đang để giống Compact, sau này bạn có thể sửa lại layout 2 cột (2-pane) ở đây
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileExpandedContent(
@@ -420,10 +418,23 @@ fun ProfileExpandedContent(
             }
 
             // Recently Viewed Section
-            Column(modifier = Modifier.fillMaxWidth().padding(top = 24.dp).background(Color.White)) {
-                Text(text = "Đã xem gần đây", style = AppTextStyles.Heading3, color = AppColor.neutral300, modifier = Modifier.padding(horizontal = 16.dp))
+            Column(
+                modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+                .background(Color.White)
+            ) {
+                Text(
+                    text = "Đã xem gần đây",
+                    style = AppTextStyles.Heading3,
+                    color = AppColor.neutral300,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
                 Spacer(modifier = Modifier.height(12.dp))
-                LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     items(recentlyViewedProducts) { product ->
                         ProductCard(product = product, onClick = { onProductClick(product) })
                     }
@@ -431,7 +442,12 @@ fun ProfileExpandedContent(
             }
 
             // Invite Friends Section
-            Surface(modifier = Modifier.fillMaxWidth().padding(16.dp), color = Color.White) {
+            Surface(
+                modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+                color = Color.White
+            ) {
                 Column {
                     ItemList(text = "Mời bạn bè tham gia", onClick = {})
                     ItemList(text = "Mời bạn bè tham gia", onClick = {})
@@ -479,10 +495,6 @@ private fun MenuItem(
         )
     }
 }
-
-// ==========================================
-// ✅ PREVIEW CHO TỪNG THIẾT BỊ
-// ==========================================
 
 // Preview cho Phone (Compact)
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
