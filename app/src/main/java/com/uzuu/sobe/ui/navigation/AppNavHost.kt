@@ -1,6 +1,7 @@
 package com.uzuu.sobe.ui.navigation
 
 import android.util.Log
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import com.uzuu.sobe.feature.splash.SplashScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    windowSizeClass: WindowSizeClass,
     startDestination: String = Screen.Splash.route
 ) {
     NavHost(
@@ -47,6 +49,8 @@ fun AppNavHost(
         authGraph(navController)
 
         // Main Graph
-        mainGraph(navController)
+        mainGraph(
+            navController = navController,
+            windowSizeClass = windowSizeClass)
     }
 }

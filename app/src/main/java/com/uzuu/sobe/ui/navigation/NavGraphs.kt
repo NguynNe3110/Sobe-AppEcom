@@ -1,6 +1,7 @@
 package com.uzuu.sobe.ui.navigation
 
 import android.util.Log
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -11,7 +12,6 @@ import com.uzuu.sobe.feature.auth.forgetPassword.StartForgetScreen
 import com.uzuu.sobe.feature.auth.register.EndRegisterScreen
 import com.uzuu.sobe.feature.auth.register.RegisterScreen
 import com.uzuu.sobe.feature.auth.register.confirmRegister.ConfirmRegisterScreen
-import com.uzuu.sobe.feature.main.baseMain.MainRoute
 import com.uzuu.sobe.feature.main.baseMain.MainScreen
 
 // Auth Graph
@@ -124,8 +124,13 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
 }
 
 // Main Graph - chỉ có MainScreen với Bottom Navigation
-fun NavGraphBuilder.mainGraph(navController: NavController) {
+fun NavGraphBuilder.mainGraph(
+    navController: NavController,
+    windowSizeClass: WindowSizeClass
+) {
     composable(Screen.Main.route) {
-        MainRoute()
+        MainScreen(
+            windowSizeClass = windowSizeClass
+        )
     }
 }

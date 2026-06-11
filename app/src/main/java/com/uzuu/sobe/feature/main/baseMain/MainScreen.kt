@@ -73,17 +73,17 @@ val bottomNavItems = listOf(
     BottomNavItem("Tài khoản", R.drawable.ic_profile_selected, R.drawable.ic_profile_unselected, Screen.Account.route)
 )
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Composable
-fun MainRoute() {
-    // 1. Lấy Context từ LocalContext và ép kiểu sang Activity
-    val activity = LocalContext.current as Activity
-
-    // 2. Tính toán kích thước cửa sổ dựa trên Activity
-    // Nếu activity null (hiếm khi xảy ra nếu chạy đúng cách), ta dùng giá trị mặc định hoặc xử lý an toàn
-    val windowSizeClass = calculateWindowSizeClass(activity)
-    MainScreen(windowSizeClass)
-}
+//@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+//@Composable
+//fun MainRoute() {
+//    // 1. Lấy Context từ LocalContext và ép kiểu sang Activity
+//    val activity = LocalContext.current as Activity
+//
+//    // 2. Tính toán kích thước cửa sổ dựa trên Activity
+//    // Nếu activity null (hiếm khi xảy ra nếu chạy đúng cách), ta dùng giá trị mặc định hoặc xử lý an toàn
+//    val windowSizeClass = calculateWindowSizeClass(activity)
+//    MainScreen(windowSizeClass)
+//}
 
 // 3. MAIN SCREEN: Ghép nối Scaffold, NavHost và Custom Bottom Bar
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -105,7 +105,11 @@ fun MainScreen(
                 currentRoute = currentRoute,
                 navController = navController
             ) { innerPadding ->
-                NavHostContent(navController, innerPadding)
+                NavHostContent(
+                    navController = navController,
+                    modifier = innerPadding,
+                    windowSizeClass = windowSizeClass
+                )
             }
         }
         WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> {
@@ -114,7 +118,11 @@ fun MainScreen(
                 currentRoute = currentRoute,
                 navController = navController
             ) { innerPadding ->
-                NavHostContent(navController, innerPadding)
+                NavHostContent(
+                    navController = navController,
+                    modifier = innerPadding,
+                    windowSizeClass = windowSizeClass
+                )
             }
         }
     }
@@ -175,7 +183,11 @@ private fun ScaffoldWithNavigationRail(
 }
 
 @Composable
-private fun NavHostContent(navController: NavHostController, modifier: Modifier = Modifier) {
+private fun NavHostContent(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    windowSizeClass: WindowSizeClass
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
