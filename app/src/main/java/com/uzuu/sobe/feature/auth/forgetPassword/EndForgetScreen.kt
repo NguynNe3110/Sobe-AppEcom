@@ -33,17 +33,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @Composable
-fun EndRegisterScreen(
+fun EndForgetScreen(
     onNavigationToHome: () -> Unit
 ) {
-    EndRegisterScreenContent(
+    EndForgetScreenContent(
         onNavigationToHome = onNavigationToHome
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EndRegisterScreenContent(
+fun EndForgetScreenContent(
     onNavigationToHome: () -> Unit
 ) {
     Scaffold { paddingValues ->
@@ -136,8 +136,8 @@ fun EndRegisterScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun EndRegisterScreenPreview() {
-    EndRegisterScreenContent(
+fun EndForgetScreenPreview() {
+    EndForgetScreenContent(
         onNavigationToHome = {}
     )
 }

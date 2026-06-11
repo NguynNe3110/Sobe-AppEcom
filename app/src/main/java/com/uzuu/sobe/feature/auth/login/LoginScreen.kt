@@ -178,14 +178,32 @@ fun RegisterScreenContent(
                     VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth()
                     .heightIn(min = 56.dp, max = 56.dp), // ← Fix cứng cả min lẫn max
-                shape = MaterialTheme.shapes.extraLarge
+                shape = MaterialTheme.shapes.extraLarge,
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+
+                    // Màu viền
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = AppColor.Primary,      // Viền khi focus
+                    unfocusedIndicatorColor = AppColor.neutral300,  // Viền bình thường
+                    disabledIndicatorColor = AppColor.neutral300,
+
+                    // Màu Label
+                    focusedLabelColor = AppColor.Primary,
+                    unfocusedLabelColor = AppColor.neutral500,
+
+                    // Màu con trỏ
+                    cursorColor = AppColor.Primary
+                )
             )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(onClick = onNavigateToRegister) {
+                TextButton(onClick = onNavigateToForgetPassword) {
                     Text("Quên mật khẩu", color = Color(0xFF5C7A65))
                 }
             }

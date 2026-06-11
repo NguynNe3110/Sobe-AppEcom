@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.uzuu.jetpack_compose_hub.feature.learn6_navigation.feature.auth.login.LoginScreen
+import com.uzuu.sobe.feature.auth.forgetPassword.EndForgetScreen
 import com.uzuu.sobe.feature.auth.forgetPassword.MiddleForgetScreen
 import com.uzuu.sobe.feature.auth.forgetPassword.ResetPasswordScreen
 import com.uzuu.sobe.feature.auth.forgetPassword.StartForgetScreen
@@ -31,7 +32,7 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
                 }
             },
             onNavigateToForgetPassword = {
-
+                navController.navigate(Screen.StartForget.route)
             }
         )
     }
@@ -115,9 +116,9 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
     }
 
     composable(Screen.EndForget.route) {
-        EndRegisterScreen(
+        EndForgetScreen(
             onNavigationToHome = {
-                navController.navigate(Screen.Home.route)
+                navController.navigate(Screen.Login.route)
             }
         )
     }
