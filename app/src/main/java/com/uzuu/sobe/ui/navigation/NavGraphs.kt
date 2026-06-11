@@ -11,7 +11,8 @@ import com.uzuu.sobe.feature.auth.forgetPassword.StartForgetScreen
 import com.uzuu.sobe.feature.auth.register.EndRegisterScreen
 import com.uzuu.sobe.feature.auth.register.RegisterScreen
 import com.uzuu.sobe.feature.auth.register.confirmRegister.ConfirmRegisterScreen
-import com.uzuu.sobe.feature.main.MainScreen
+import com.uzuu.sobe.feature.main.baseMain.MainRoute
+import com.uzuu.sobe.feature.main.baseMain.MainScreen
 
 // Auth Graph
 fun NavGraphBuilder.authGraph(navController: NavController) {
@@ -125,6 +126,6 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
 // Main Graph - chỉ có MainScreen với Bottom Navigation
 fun NavGraphBuilder.mainGraph(navController: NavController) {
     composable(Screen.Main.route) {
-        MainScreen()
+        MainRoute()
     }
 }

@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.foundation.layout)
+    implementation(libs.androidx.material3.window.size.class1)
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.text)
@@ -71,6 +72,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3-window-size-class")
 
     // Activity Compose
     implementation("androidx.activity:activity-compose:1.9.3")

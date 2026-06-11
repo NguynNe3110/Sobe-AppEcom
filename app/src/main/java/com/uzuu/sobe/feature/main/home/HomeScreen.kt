@@ -151,7 +151,7 @@ fun SearchBar(
     onKeywordChange: (String) -> Unit,
 //    modifier: Modifier = Modifier
 ) {
-    //responsive mức 2 (có thẻ dung  windowsizeClass)
+    //responsive mức 2 (có thẻ dùng  windowsizeClass)
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -161,7 +161,7 @@ fun SearchBar(
             modifier = Modifier.fillMaxWidth(),
 //            .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-
+            horizontalArrangement = Arrangement.SpaceBetween
             ) {
             if(currentMaxWidth > 600.dp) {
                 Icon(
@@ -524,15 +524,15 @@ private fun ProductsGrid(
 }
 
 @Preview(showBackground = true)
-@Preview(
+@Preview( // 393 - 851dp
     name = "Phone - Portrait",
     device = Devices.PIXEL_5
 )
-@Preview(
+@Preview( // 900 - 1280dp
     name = "Tablet - Landscape",
     device = Devices.PIXEL_C
 )
-@Preview(
+@Preview( // 673 - 841dp
     name = "Foldable",
     device = Devices.FOLDABLE
 )
