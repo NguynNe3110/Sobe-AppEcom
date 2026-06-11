@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sobe.ui.theme.AppTextStyles
 import com.example.ui.theme.AppBrush
-import com.uzuu.jetpack_compose_hub.feature.home.HomeScreenContent
 import com.uzuu.jetpack_compose_hub.feature.home.HomeUiState
 
 @Composable

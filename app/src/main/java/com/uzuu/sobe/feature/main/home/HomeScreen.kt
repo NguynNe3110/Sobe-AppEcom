@@ -20,6 +20,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sobe.ui.theme.AppTextStyles
@@ -47,6 +51,7 @@ import com.uzuu.sobe.domain.model.ProductItem
 import com.uzuu.sobe.domain.model.init.listBanners
 import com.uzuu.sobe.domain.model.init.listCategories
 import com.uzuu.sobe.domain.model.init.listProducts
+import com.uzuu.sobe.feature.main.baseMain.MainScreen
 import com.uzuu.sobe.ui.component.OutlinedBrushText
 import com.uzuu.sobe.ui.component.ProductCard
 import com.uzuu.sobe.ui.component.TabItem
@@ -63,6 +68,7 @@ data class HomeUiState(
 // Main Screen - Chỉ nhận callback điều hướng
 @Composable
 fun HomeScreen(
+    windowSizeClass: WindowSizeClass,
     onNavigateToSearch: () -> Unit,
     onNavigateToCart: () -> Unit,
     onNavigateToCategory: (String) -> Unit,
@@ -73,19 +79,98 @@ fun HomeScreen(
         mutableStateOf(HomeUiState())
     }
 
-    HomeScreenContent(
-        uiState = uiState.value,
-        onSearchQueryChanged = { uiState.value = uiState.value.copy(searchQuery = it) },
-        onCategoryClick = onNavigateToCategory,
-        onCategoryAllClick = onNavigatteToCateGoryAll,
-        onProductClick = onNavigateToProductDetail,
-        onTabSelected = { uiState.value = uiState.value.copy(selectedTab = it) },
-        onSearchClick = { }
-    )
+    // logic giong mainScreen
+    when (windowSizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            // Layout cho Mobile: 1 cột dọc, SearchBar không có Logo
+            HomeCompactContent(
+                uiState = uiState.value,
+                onSearchQueryChanged = { uiState.value = uiState.value.copy(searchQuery = it) },
+                onCategoryClick = onNavigateToCategory,
+                onCategoryAllClick = onNavigatteToCateGoryAll,
+                onProductClick = onNavigateToProductDetail,
+                onTabSelected = { uiState.value = uiState.value.copy(selectedTab = it) },
+                onSearchClick = { }
+            )
+        }
+        WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> {
+            // Layout cho Tablet: Chia 2 pane, SearchBar có Logo
+            HomeExpandedContent(
+                uiState = uiState.value,
+                onSearchQueryChanged = { uiState.value = uiState.value.copy(searchQuery = it) },
+                onCategoryClick = onNavigateToCategory,
+                onCategoryAllClick = onNavigatteToCateGoryAll,
+                onProductClick = onNavigateToProductDetail,
+                onTabSelected = { uiState.value = uiState.value.copy(selectedTab = it) },
+                onSearchClick = { }
+            )
+        }
+    }
 }
 
 @Composable
-fun HomeScreenContent(
+fun HomeExpandedContent(
+    uiState: HomeUiState,
+    onSearchQueryChanged: (String) -> Unit,
+    onCategoryClick: (String) -> Unit,
+    onCategoryAllClick : () -> Unit,
+    onProductClick: (String) -> Unit,
+    onTabSelected: (Int) -> Unit,
+    onSearchClick: () -> Unit
+) {
+    // ✅ SỬA LỖI: Dùng 1 LazyVerticalGrid duy nhất cho toàn màn hình
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 160.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF5F5F5))
+            .padding(horizontal = 16.dp), // Padding chung cho toàn bộ lưới
+        contentPadding = PaddingValues(bottom = 90.dp, top = 8.dp), // Chừa đáy cho BottomNav
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // ✅ Search Bar: Chiếm FULL chiều rộng của Grid
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            SearchBar(
+                keyword = uiState.searchQuery,
+                onKeywordChange = onSearchQueryChanged,
+            )
+        }
+
+        // ✅ Banner: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            PromotionalBanner()
+        }
+
+        // ✅ Categories: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            CategoriesSection(
+                categories = uiState.categories,
+                onCategoryClick = onCategoryClick,
+                onCategoryAllClick = onCategoryAllClick,
+            )
+        }
+
+        // ✅ Tabs: Chiếm FULL chiều rộng
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            TabSection(
+                selectedTab = uiState.selectedTab,
+                onTabSelected = onTabSelected
+            )
+        }
+
+        // ✅ Products: Tự động chia cột, không cần hàm ProductsGrid riêng nữa
+        items(uiState.products) { product ->
+            ProductCard(
+                product = product,
+                onClick = { onProductClick(product.name) }
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeCompactContent(
     uiState: HomeUiState,
     onSearchQueryChanged: (String) -> Unit,
     onCategoryClick: (String) -> Unit,
@@ -449,30 +534,96 @@ private fun ProductsGrid(
     }
 }
 
-@Preview(showBackground = true)
-@Preview( // 393 - 851dp
+//@Preview(showBackground = true)
+//@Preview( // 393 - 851dp
+//    name = "Phone - Portrait",
+//    device = Devices.PIXEL_5
+//)
+//@Preview( // 900 - 1280dp
+//    name = "Tablet - Landscape",
+//    device = Devices.PIXEL_C
+//)
+//@Preview( // 673 - 841dp
+//    name = "Foldable",
+//    device = Devices.FOLDABLE
+//)
+//@Composable
+//fun PreviewHomeScreen() {
+//    HomeScreenContent(
+//        uiState = HomeUiState(),
+//        onSearchQueryChanged = {},
+//        onCategoryClick = {},
+//
+//        onProductClick = {},
+//        onTabSelected = {},
+//        onSearchClick = {},
+//        onCategoryAllClick = {}
+//
+//    )
+//}
+
+// Preview cho Phone (Compact)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(
     name = "Phone - Portrait",
-    device = Devices.PIXEL_5
-)
-@Preview( // 900 - 1280dp
-    name = "Tablet - Landscape",
-    device = Devices.PIXEL_C
-)
-@Preview( // 673 - 841dp
-    name = "Foldable",
-    device = Devices.FOLDABLE
+    device = Devices.PIXEL_5,
+    showBackground = true
 )
 @Composable
-fun PreviewHomeScreen() {
-    HomeScreenContent(
-        uiState = HomeUiState(),
-        onSearchQueryChanged = {},
-        onCategoryClick = {},
+fun PreviewMainScreen_Phone() {
+    HomeScreen(
+        windowSizeClass = WindowSizeClass.calculateFromSize(
+            size = DpSize(width = 393.dp, height = 851.dp)
+        ),
+        onNavigateToCart = {},
+        onNavigateToSearch = {},
 
-        onProductClick = {},
-        onTabSelected = {},
-        onSearchClick = {},
-        onCategoryAllClick = {}
+        onNavigateToCategory = {},
+        onNavigatteToCateGoryAll = {},
+        onNavigateToProductDetail = {}
+    )
+}
 
+// Preview cho Tablet (Expanded)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(
+    name = "Tablet - Landscape",
+    device = Devices.PIXEL_C,
+    showBackground = true
+)
+@Composable
+fun PreviewMainScreen_Tablet() {
+    HomeScreen(
+        windowSizeClass = WindowSizeClass.calculateFromSize(
+            size = DpSize(width = 393.dp, height = 851.dp)
+        ),
+        onNavigateToCart = {},
+        onNavigateToSearch = {},
+
+        onNavigateToCategory = {},
+        onNavigatteToCateGoryAll = {},
+        onNavigateToProductDetail = {}
+    )
+}
+
+// Preview cho Foldable (Medium)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(
+    name = "Foldable",
+    device = Devices.FOLDABLE,
+    showBackground = true
+)
+@Composable
+fun PreviewMainScreen_Foldable() {
+    HomeScreen(
+        windowSizeClass = WindowSizeClass.calculateFromSize(
+            size = DpSize(width = 393.dp, height = 851.dp)
+        ),
+        onNavigateToCart = {},
+        onNavigateToSearch = {},
+
+        onNavigateToCategory = {},
+        onNavigatteToCateGoryAll = {},
+        onNavigateToProductDetail = {}
     )
 }

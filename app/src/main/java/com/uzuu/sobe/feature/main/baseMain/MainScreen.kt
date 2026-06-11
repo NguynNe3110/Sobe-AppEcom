@@ -195,6 +195,7 @@ private fun NavHostContent(
     ) {
         composable(Screen.Home.route) {
             HomeScreen(
+                windowSizeClass = windowSizeClass,
                 onNavigateToSearch = {},
                 onNavigateToCart = {},
                 onNavigateToCategory = {},
@@ -203,16 +204,27 @@ private fun NavHostContent(
             )
         }
         composable(Screen.Shopping.route) {
-            ShoppingScreen(onProductClick = {})
+            ShoppingScreen(
+                windowSizeClass = windowSizeClass,
+                onProductClick = {}
+            )
         }
         composable(Screen.Community.route) {
-            CommunityScreen(onPostClick = {}, onNavigateToPost = {})
+            CommunityScreen(
+                windowSizeClass = windowSizeClass,
+                onPostClick = {},
+                onNavigateToPost = {}
+            )
         }
         composable(Screen.Message.route) {
-            MessageScreen()
+            MessageScreen(
+                windowSizeClass = windowSizeClass,
+
+            )
         }
         composable(Screen.Account.route) {
             ProfileScreen(
+                windowSizeClass = windowSizeClass,
                 onNavigateToOrders = {},
                 onNavigateToWardrobe = {},
                 onNavigateToFavorites = {},
