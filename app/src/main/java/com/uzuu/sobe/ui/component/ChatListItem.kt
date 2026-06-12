@@ -102,7 +102,6 @@ fun ChatListItem(
                 }
 
                 Spacer(modifier = Modifier.height(4.dp))
-
                 // Message with red dot indicator
                 Row(
                     verticalAlignment = Alignment.CenterVertically
